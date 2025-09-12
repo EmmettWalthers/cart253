@@ -17,4 +17,5 @@ function setup() {
 function draw() {
     // Every Frame
     background(255, 100, 100);
+    rect(200, 80, 240, 320);
 }
