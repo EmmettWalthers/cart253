@@ -23,6 +23,19 @@ let mrFurious = {
 
 let skyShade = 255
 
+let bird = {
+    x: 0,
+    y: 50,
+    width: 50,
+    height: 25,
+
+    fill: {
+    r: 173,
+    g: 216,
+    b: 230
+  }
+};
+
 /**
  * Create the canvas
  */
@@ -37,10 +50,15 @@ function draw() {
   background(skyShade);
   mrFurious.fill.r = mrFurious.fill.r + 1;
   skyShade = skyShade - 1;
-  // Draw Mr. Furious as a coloured circle
+  bird.x = bird.x + 1;
+
+  push();
+  fill(bird.fill.r, bird.fill.g, bird.fill.b)
+  rect(bird.x, bird.y, bird.width, bird.height);
+
   push();
   noStroke();
   fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
-  ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
+  ellipse(mrFurious.x, mrFurious.y, mrFurious.size,);
   pop();
 }
