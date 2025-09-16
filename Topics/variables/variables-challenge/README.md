@@ -2,7 +2,7 @@
 
 Emmett Walthers
 
-[View this project online](https://emmettwalthers.github.io/cart253/Topics/variables-challenge/)
+[View this project online](https://emmettwalthers.github.io/cart253/Topics/variables/variables-challenge/)
 
 ## Description
 
