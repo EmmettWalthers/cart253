@@ -28,6 +28,7 @@ let bird = {
     y: 50,
     width: 50,
     height: 25,
+    direction: 1,
 
     fill: {
     r: 173,
@@ -35,6 +36,11 @@ let bird = {
     b: 230
   }
 };
+
+let rage = {
+    shakeMin: 1,
+    shakeMax: 2
+}
 
 /**
  * Create the canvas
@@ -48,9 +54,27 @@ function setup() {
  */
 function draw() {
   background(skyShade);
-  mrFurious.fill.r = mrFurious.fill.r + 1;
-  skyShade = skyShade - 1;
-  bird.x = bird.x + 1;
+  mrFurious.fill.r = mrFurious.fill.r + 0.5;
+  mrFurious.fill.r = constrain(mrFurious.fill.r, 100, 200);
+  skyShade = skyShade - 0.5;
+
+  rage.shakeMin = rage.shakeMin + 0.1;
+  rage.shakeMax = rage.shakeMax + 0.1;
+  rage.shakeMin = constrain(rage.shakeMin, 1, 15);
+  rage.shakeMax = constrain(rage.shakeMax, 2, 25);
+
+  mrFurious.x = 200 + random(rage.shakeMin, rage.shakeMax)
+  mrFurious.y = 200 + random(rage.shakeMin, rage.shakeMax)
+
+  if (bird.x >= 325) {
+    bird.direction = -2.5;
+  }
+
+  if (bird.x <= 25) {
+    bird.direction = 2.5;
+  }
+
+  bird.x = bird.x + bird.direction;
 
   push();
   fill(bird.fill.r, bird.fill.g, bird.fill.b)
