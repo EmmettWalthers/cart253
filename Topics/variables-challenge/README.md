@@ -12,7 +12,7 @@ This description should help the reader understand what the program is, anything
 
 ## Screenshot
 
-> ![Example Gameplay(./assets/images/example.png)
+> ![Example Gameplay](./assets/images/example.png)
 
 ## Attribution
 
