@@ -1,9 +1,7 @@
 # Cart253
 
-Whatever ig
+Created by Emmett Walthers
 
-**Lots of stuff**
-
-*Italics*
-
-# Comment here
+**Projects Done so far:**
+[Landscape Challenge](https://emmettwalthers.github.io/cart253/Topics/instructions/landscape-challenge/)
+[Mr. Furious](https://emmettwalthers.github.io/cart253/Topics/variables-challenge/)
