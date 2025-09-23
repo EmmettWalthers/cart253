@@ -1,6 +1,6 @@
 # Circles Made Great Again
 
-Emmett, Ben, Jordan
+Emmett Walthers, Ben Merhi, Jordan Lobasso
 
 [View this project online](https://emmettwalthers.github.io/cart253/Topics/conditionals-challenge/)
 
