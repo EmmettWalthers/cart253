@@ -1,4 +1,4 @@
-# TITLE OF PROJECT
+# Circles Made Great Again
 
 Emmett, Ben, Jordan
 
