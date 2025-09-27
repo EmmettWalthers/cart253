@@ -35,12 +35,14 @@ function setup() {
 }
 
 function drawFace() {
+    /** Draw The Head */
     push();
     noStroke();
     fill(head.fill);
     ellipse(head.x, head.y, head.size);
     pop();
 
+    /** Draw The Eyes */
     push();
     noStroke();
     fill(eyes.fill);
@@ -51,6 +53,19 @@ function drawFace() {
     noStroke();
     fill(eyes.fill);
     ellipse(350, 250, eyes.size);
+    pop();
+    
+    /** Draw The Pupils */
+    push();
+    noStroke();
+    fill("#000000");
+    ellipse(250, 250, 30);
+    pop();
+
+    push();
+    noStroke();
+    fill("#000000");
+    ellipse(350, 250, 30);
     pop();
 }
 
