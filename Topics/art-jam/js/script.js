@@ -11,6 +11,10 @@
 /**
  * Creates The Canvas
 */
+
+let pink1 = 255;
+let pink2 = 255;
+
 function setup() {
     createCanvas(600, 600);
 }
@@ -25,7 +29,7 @@ function drawFace() {
 
     /** Draws Eyes */
     push();
-    fill(255);
+    fill(255, pink1, pink1);
     noStroke();
     arc(210, 240, 100, 100, 0, PI);
     arc(390, 240, 100, 100, 0, PI);
@@ -46,6 +50,12 @@ function drawFace() {
     noStroke();
     arc(300, 200, 400, 300, PI, TWO_PI);
     pop();
+}
+
+function mousePressed() {
+    if(dist(mouseX, mouseY, 210, 240) < 50) {
+        pink1 -= 25;
+    }
 }
 
 function drawPupils() {
