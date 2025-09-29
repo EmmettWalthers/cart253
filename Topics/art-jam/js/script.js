@@ -27,16 +27,8 @@ function drawFace() {
     push();
     fill(255);
     noStroke();
-    arc(210, 225, 100, 100, 0, PI);
-    arc(390, 225, 100, 100, 0, PI);
-    pop();
-
-    /** Draws Pupils */
-    push();
-    fill(0);
-    noStroke();
-    arc(210, 225, 50, 50, 0, PI);
-    arc(390, 225, 50, 50, 0, PI);
+    arc(210, 240, 100, 100, 0, PI);
+    arc(390, 240, 100, 100, 0, PI);
     pop();
 
     /** Draws Mouth */
@@ -56,11 +48,25 @@ function drawFace() {
     pop();
 }
 
+function drawPupils() {
+    /** Draws Pupils */
+    let x1 = constrain(mouseX, 185, 235);
+    let x2 = constrain(mouseX, 365, 415);
+
+    push();
+    fill(0);
+    noStroke();
+    arc(x1, 240, 50, 50, 0, PI);
+    arc(x2, 240, 50, 50, 0, PI);
+    pop();
+}
+
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
     background("#00B9F7");
     drawFace();
+    drawPupils();
 
 }
