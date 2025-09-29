@@ -18,8 +18,8 @@ function setup() {
 function drawFace() {
     /** Draws Head */
     push();
+    fill("#fae8caff");
     noStroke();
-    fill("#f7e7ce");
     ellipse(300, 300, 400);
     pop();
 
@@ -41,11 +41,18 @@ function drawFace() {
 
     /** Draws Mouth */
     push();
-    noStroke();
     fill(0);
+    noStroke();
     arc(300, 370, 200, 150, 0, PI);
     fill("#FF4C4C");
     arc(300, 370, 100, 75, 0, PI); 
+    pop();
+
+    /** Draws Hair */
+    push();
+    fill("#8B4513");
+    noStroke();
+    arc(300, 200, 400, 300, PI, TWO_PI);
     pop();
 }
 
