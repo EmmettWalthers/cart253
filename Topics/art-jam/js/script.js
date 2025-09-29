@@ -22,6 +22,7 @@ function drawFace() {
     fill("#f7e7ce");
     ellipse(300, 300, 400);
     pop();
+
     /** Draws Eyes */
     push();
     fill(255);
@@ -29,12 +30,22 @@ function drawFace() {
     arc(210, 225, 100, 100, 0, PI);
     arc(390, 225, 100, 100, 0, PI);
     pop();
+
     /** Draws Pupils */
     push();
     fill(0);
     noStroke();
     arc(210, 225, 50, 50, 0, PI);
     arc(390, 225, 50, 50, 0, PI);
+    pop();
+
+    /** Draws Mouth */
+    push();
+    noStroke();
+    fill(0);
+    arc(300, 370, 200, 150, 0, PI);
+    fill("#FF4C4C");
+    arc(300, 370, 100, 75, 0, PI); 
     pop();
 }
 
