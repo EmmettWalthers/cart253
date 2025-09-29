@@ -8,25 +8,6 @@
 
 "use strict";
 
-
-
-const head = {
-    x: 300,
-    y: 300,
-    size: 250,
-    fill: "#F7D5BA"
-};
-
-const eyes = {
-    size: 60,
-    fill: "#FFFFFF"
-};
-
-const hat = {
-    fill: "#000000",
-    size: 150
-}
-
 /**
  * Creates The Canvas
 */
@@ -35,56 +16,27 @@ function setup() {
 }
 
 function drawFace() {
-    /** Draw The Head */
+    /** Draws Head */
     push();
     noStroke();
-    fill(head.fill);
-    ellipse(head.x, head.y, head.size);
+    fill("#f7e7ce");
+    ellipse(300, 300, 400);
     pop();
-
-    /** Draw The Eyes */
+    /** Draws Eyes */
     push();
+    fill(255);
     noStroke();
-    fill(eyes.fill);
-    ellipse(250, 250, eyes.size);
+    arc(210, 225, 100, 100, 0, PI);
+    arc(390, 225, 100, 100, 0, PI);
     pop();
-
+    /** Draws Pupils */
     push();
+    fill(0);
     noStroke();
-    fill(eyes.fill);
-    ellipse(350, 250, eyes.size);
-    pop();
-    
-    /** Draw The Pupils */
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(250, 250, 30);
-    pop();
-
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(350, 250, 30);
+    arc(210, 225, 50, 50, 0, PI);
+    arc(390, 225, 50, 50, 0, PI);
     pop();
 }
-
-function drawHat(){
-    push();
-    noStroke();
-    fill(hat.fill);
-    ellipse(head.x, head.y - 175, 200, 150);
-    pop();
-
-    push();
-    noStroke();
-    fill(hat.fill);
-    rect(150, 160, 300, 40, 50);
-    pop();
-}
-
-
-
 
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
@@ -92,6 +44,5 @@ function drawHat(){
 function draw() {
     background("#00B9F7");
     drawFace();
-    drawHat();
 
 }
