@@ -56,6 +56,10 @@ function mousePressed() {
     if(dist(mouseX, mouseY, 210, 240) < 50) {
         pink1 -= 25;
     }
+
+    else if(dist(mouseX, mouseY, 390, 240) < 50) {
+        pink1 -= 25;
+    }
 }
 
 function drawPupils() {
