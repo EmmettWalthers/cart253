@@ -13,7 +13,6 @@
 */
 
 let pink1 = 255;
-let pink2 = 255;
 
 function setup() {
     createCanvas(600, 600);
@@ -82,5 +81,5 @@ function draw() {
     background("#00B9F7");
     drawFace();
     drawPupils();
-
+    pink1 += 0.5
 }
