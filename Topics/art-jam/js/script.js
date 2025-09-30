@@ -14,9 +14,11 @@
 
 let pink1 = 255;
 let pink2 = 255;
+let ouch;
 
 function setup() {
     createCanvas(600, 600);
+    ouch = loadSound('assets/sounds/classic_hurt.mp3');
 }
 
 function drawFace() {
@@ -62,12 +64,14 @@ function mousePressed() {
     if (dist(mouseX, mouseY, 210, 240) < 50 && mouseY > 240) {
         if (pink1 > 50) {
             pink1 -= 50
+            ouch.play();
         }
     }
 
     else if (dist(mouseX, mouseY, 390, 240) < 50 && mouseY > 240) {
         if (pink2 > 50) {
             pink2 -= 50
+            ouch.play();
         }
     }
 }
@@ -93,10 +97,10 @@ function draw() {
     drawFace();
     drawPupils();
     if (pink1 < 255) {
-        pink1 += 1
+        pink1 += 1.5
     } 
 
-    else if (pink2 < 255) {
-        pink2 += 1
+    if (pink2 < 255) {
+        pink2 += 1.5
     } 
 }
