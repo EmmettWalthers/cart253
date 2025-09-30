@@ -53,11 +53,11 @@ function drawFace() {
 
 function mousePressed() {
     if(dist(mouseX, mouseY, 210, 240) < 50) {
-        pink1 -= 25;
+        pink1 -= 50;
     }
 
     else if(dist(mouseX, mouseY, 390, 240) < 50) {
-        pink1 -= 25;
+        pink1 -= 50;
     }
 }
 
@@ -81,5 +81,6 @@ function draw() {
     background("#00B9F7");
     drawFace();
     drawPupils();
-    pink1 += 0.5
+    pink1 += 1
+
 }
