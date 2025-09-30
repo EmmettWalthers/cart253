@@ -58,12 +58,17 @@ function drawFace() {
 }
 
 function mousePressed() {
-    if(dist(mouseX, mouseY, 210, 240) < 50 && mouseY > 240) {
-        pink1 -= 50;
+
+    if (dist(mouseX, mouseY, 210, 240) < 50 && mouseY > 240) {
+        if (pink1 > 50) {
+            pink1 -= 50
+        }
     }
 
-    else if(dist(mouseX, mouseY, 390, 240) < 50 && mouseY > 240) {
-        pink2 -= 50;
+    else if (dist(mouseX, mouseY, 390, 240) < 50 && mouseY > 240) {
+        if (pink2 > 50) {
+            pink2 -= 50
+        }
     }
 }
 
