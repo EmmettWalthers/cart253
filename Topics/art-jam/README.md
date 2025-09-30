@@ -16,6 +16,16 @@ Emmett Walthers
 
 > The eye slowly returns to white overtime
 
+## Instructions Followed
+
+> "Use variables to create change over time" - Eye changes back to white after being red.
+
+> "Use mouseX and mouseY to allow for some user interaction" - Pupils of eye follow the cursor.
+
+> "Use at least one p5 function you’ve never tried" - I used both a sound playing function https://p5js.org/reference/p5.sound/ and the mouse being clicked, which at the time of making we had not done in class yet! https://p5js.org/reference/p5/mousePressed/
+
+> "Use at least one conditional" - Checking if cursor was inside eye, turning it red and back to white.
+
 ## Screenshot(s)
 
 > ![Image of a face 1](./assets/images/example1.png)
