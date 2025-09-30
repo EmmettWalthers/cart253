@@ -13,6 +13,7 @@
 */
 
 let pink1 = 255;
+let pink2 = 255;
 
 function setup() {
     createCanvas(600, 600);
@@ -31,6 +32,11 @@ function drawFace() {
     fill(255, pink1, pink1);
     noStroke();
     arc(210, 240, 100, 100, 0, PI);
+    pop();
+
+    push();
+    fill(255, pink2, pink2);
+    noStroke();
     arc(390, 240, 100, 100, 0, PI);
     pop();
 
@@ -57,7 +63,7 @@ function mousePressed() {
     }
 
     else if(dist(mouseX, mouseY, 390, 240) < 50 && mouseY > 240) {
-        pink1 -= 50;
+        pink2 -= 50;
     }
 }
 
@@ -83,5 +89,9 @@ function draw() {
     drawPupils();
     if (pink1 < 255) {
         pink1 += 1
+    } 
+
+    else if (pink2 < 255) {
+        pink2 += 1
     } 
 }
