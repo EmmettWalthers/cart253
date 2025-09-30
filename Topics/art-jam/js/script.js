@@ -4,6 +4,13 @@
  * 
  * Very acurate self portrait that reacts to pain! 
  * 
+ * Controls:
+ * - Click eyes to turn them red
+ * - Move cursor around to watch eyes follow it
+ * 
+ * Uses:
+ * p5.js
+ * https://p5js.org
  */
 
 "use strict";
