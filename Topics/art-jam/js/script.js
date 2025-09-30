@@ -81,6 +81,7 @@ function draw() {
     background("#00B9F7");
     drawFace();
     drawPupils();
-    pink1 += 1
-
+    if (pink1 < 255) {
+        pink1 += 1
+    } 
 }
