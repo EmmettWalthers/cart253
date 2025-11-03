@@ -4,6 +4,8 @@
 let gameActive = false;
 let titleImg;
 let swayAngle = 0;
+let skySize = 0;
+let scene = 1;
 
 const frog = {
     // The frog's body has a position and size
@@ -35,6 +37,7 @@ function draw() {
     background("#87ceeb");
     gameStart();
     drawFrog();
+    drawScene2();
 }
 
 function drawCircle(color, x, y, size) {
@@ -79,6 +82,24 @@ function drawScene1() { // This Function draw the Intro Scene
     rotate(sway);                     
     image(titleImg, 0, 0);        
     pop();
+
+    // Instructions Text
+    push();
+    fill("black");
+    textSize(16);
+    textAlign(CENTER, CENTER);
+    text("Click the Frog to Start", width / 7, height / 1.05)
+    pop();
+}
+
+function drawScene2() {
+    // Starting Animation
+    if (scene == 2) {
+        if (skySize < 1000) {
+        skySize += 10
+        }
+        drawCircle("#87ceeb", width / 2, height / 2, skySize)
+    }
 }
 
 function drawFrog() {
@@ -89,4 +110,13 @@ function drawFrog() {
     drawCircle("white", frog.body.x + 50, frog.body.y - 75, 50)
     drawCircle("black", frog.body.x - 50, frog.body.y - 75, 30)
     drawCircle("black", frog.body.x + 50, frog.body.y - 75, 30)
+}
+
+function mousePressed() {
+    if (scene == 1) {
+        let d = dist(mouseX, mouseY, frog.body.x, frog.body.y);
+        if (d < frog.body.size / 2) {
+            scene = 2
+        }
+    }
 }
