@@ -1,6 +1,8 @@
 
 "use strict";
 
+let gameActive = false;
+
 const frog = {
     // The frog's body has a position and size
     body: {
@@ -25,28 +27,55 @@ function setup() {
 
 function draw() {
     background("#87ceeb");
-    drawFrog()
+    gameStart();
+    drawFrog();
+}
+
+function drawCircle(color, x, y, size) {
+    push();
+    fill(color);
+    noStroke();
+    ellipse(x, y, size);
+    pop();
+}
+
+function drawBox(color, x, y, size) {
+    push();
+    fill(color);
+    noStroke();
+    ellipse(x, y, size);
+    pop();
+}
+
+function gameStart() {
+    if (gameActive == false) {
+        drawScene1();
+    }
+}
+
+function drawScene1() { // This Function draw the Intro Scene
+    // Draw Clouds
+    drawCircle("white", width / 4, height / 4, 150);
+    drawCircle("white", width / 3, height / 3, 150);
+    drawCircle("white", width / 6, height / 3, 150);
+    drawCircle("white", width / 2 + width / 4, height / 4, 150);
+    drawCircle("white", width / 2 + width / 3, height / 3, 150);
+    drawCircle("white", width / 2 + width / 6, height / 3, 150);
+    // Frog Dude Text
+    push();
+    fill("black");
+    textSize(32);
+    textAlign(CENTER);
+    text("Frog Dude", width / 2, height / 2)
+    pop();
 }
 
 function drawFrog() {
-    // Draw the tongue tip
-    push();
-    fill("#ff0000");
-    noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
-
-    // Draw the rest of the tongue
-    push();
-    stroke("#ff0000");
-    strokeWeight(frog.tongue.size);
-    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
-
     // Draw the frog's body
-    push();
-    fill("#00ff00");
-    noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.size);
-    pop();
+    drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
+    // Draw the eyes
+    drawCircle("white", frog.body.x - 50, frog.body.y - 75, 50)
+    drawCircle("white", frog.body.x + 50, frog.body.y - 75, 50)
+    drawCircle("black", frog.body.x - 50, frog.body.y - 75, 30)
+    drawCircle("black", frog.body.x + 50, frog.body.y - 75, 30)
 }
