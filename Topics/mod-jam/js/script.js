@@ -83,7 +83,8 @@ function drawScene1() { // This Function draw the Intro Scene
     fill("black");
     textSize(16);
     textAlign(CENTER, CENTER);
-    text("Click the Frog to Start", width / 7, height / 1.03)
+    text("Click the Frog to Start", width / 7.5, height / 1.05)
+    text("Use ARROW keys to move frog", width / 5.3, height / 1.02)
     pop();
 }
 
