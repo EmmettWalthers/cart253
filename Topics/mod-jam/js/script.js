@@ -43,8 +43,8 @@ function preload() {
 
 function draw() {
     background("#87ceeb");
-    gameStart();
-    drawScene2();
+    titleScreen();
+    drawTransition();
     gameScene();
     drawFrog();
     gameOver();
@@ -66,84 +66,70 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-function gameStart() {
-    if (gameActive == false) {
-        drawScene1();
+function titleScreen() { // This Function draw the Intro Scene
+    if (!gameActive) {
+
+        // Draw Clouds
+        drawCircle("white", width / 4, height / 4, 150);
+        drawCircle("white", width / 3, height / 3, 150);
+        drawCircle("white", width / 6, height / 3, 150);
+        drawCircle("white", width / 2 + width / 4, height / 4, 150);
+        drawCircle("white", width / 2 + width / 3, height / 3, 150);
+        drawCircle("white", width / 2 + width / 6, height / 3, 150);
+
+        // Adds Sway to the Title
+        swayAngle += 0.02; // Sway Speed
+        let sway = sin(swayAngle) * 0.1; // Max Rotation Angle
+
+        // Displays Title Image with Sway
+        imageMode(CENTER);
+        push();
+        translate(width / 2, height / 3);
+        rotate(sway);                     
+        image(titleImg, 0, 0);        
+        pop();
+
+        // Instructions Text
+        push();
+        fill("black");
+        textSize(16);
+        textAlign(CENTER, CENTER);
+        text("Click the Frog to Start", width / 7.5, height / 1.05)
+        text("Use ARROW keys to move frog", width / 5.3, height / 1.02)
+        pop();
     }
 }
 
-function drawScene1() { // This Function draw the Intro Scene
-    // Draw Clouds
-    drawCircle("white", width / 4, height / 4, 150);
-    drawCircle("white", width / 3, height / 3, 150);
-    drawCircle("white", width / 6, height / 3, 150);
-    drawCircle("white", width / 2 + width / 4, height / 4, 150);
-    drawCircle("white", width / 2 + width / 3, height / 3, 150);
-    drawCircle("white", width / 2 + width / 6, height / 3, 150);
-
-    // Adds Sway to the Title
-    swayAngle += 0.02; // Sway Speed
-    let sway = sin(swayAngle) * 0.1; // Max rotation angle
-
-    // Displays Title Image with Sway
-    imageMode(CENTER);
-    push();
-    translate(width / 2, height / 3);
-    rotate(sway);                     
-    image(titleImg, 0, 0);        
-    pop();
-
-    // Instructions Text
-    push();
-    fill("black");
-    textSize(16);
-    textAlign(CENTER, CENTER);
-    text("Click the Frog to Start", width / 7.5, height / 1.05)
-    text("Use ARROW keys to move frog", width / 5.3, height / 1.02)
-    pop();
-}
-
-function drawScene2() {
+function drawTransition() {
     // Starting Animation
     if (scene == 2) {
         if (skySize < 1000) {
-        skySize += 10
+        skySize += 15
         }
         drawCircle("#87ceeb", width / 2, height / 2, skySize)
     }
 
-    if (skySize == 1000) {
+    if (skySize >= 1000) {
         gameActive = true
     }
 }
 
-function drawFrog() {
-    // Draw the frog's body
-    drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
-    // Draw the eyes
-    drawCircle("white", frog.body.x - 50, frog.body.y - 60, 40)
-    drawCircle("white", frog.body.x + 50, frog.body.y - 60, 40)
-    drawCircle("black", frog.body.x - 50, frog.body.y - 60, 20)
-    drawCircle("black", frog.body.x + 50, frog.body.y - 60, 20)
-    // Draw the Mouth
-    drawCircle("red", frog.body.x, frog.body.y - 60, 20)
-}
-
 function gameScene() {
     if (gameActive) {
+
         // Draw Lanes
         drawBox("white", 128, 0, 0.5, 1000)
         drawBox("white", 256, 0, 0.5, 1000)
         drawBox("white", 384, 0, 0.5, 1000)
         drawBox("white", 512, 0, 0.5, 1000)
+
         // Call Fly Functions
         drawFly();
         moveFly();
         flyEaten();
+
         // Hunger Bar
         drawHungerBar();
-        hunger -= 0.5;
-        // Fly Speed
     }
 }
 
@@ -158,6 +144,21 @@ function mousePressed() {
 
 function drawHungerBar() {
     drawBox("red", 0, 0, hunger, 25)
+    if (hunger < 750) {
+        hunger -= 0.5;
+    }
+}
+
+function drawFrog() {
+    // Draw the frog's body
+    drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
+    // Draw the eyes
+    drawCircle("white", frog.body.x - 50, frog.body.y - 60, 40)
+    drawCircle("white", frog.body.x + 50, frog.body.y - 60, 40)
+    drawCircle("black", frog.body.x - 50, frog.body.y - 60, 20)
+    drawCircle("black", frog.body.x + 50, frog.body.y - 60, 20)
+    // Draw the Mouth
+    drawCircle("red", frog.body.x, frog.body.y - 60, 20)
 }
 
 function drawFly() {
@@ -194,7 +195,7 @@ function flyEaten() {
 
     if (d < (fly.size / 2 + 20)) {
         resetFly();
-        hunger += 75;
+        hunger += 150;
         crunchSFX.play();
     }
 }
@@ -225,12 +226,23 @@ function gameOver() {
 }
 
 function gameLose() {
-    gameActive = false
+    gameActive = false;
     drawBox("red", 0, 0, 1000, 1000)
     push();
     fill("white");
     textSize(32);
     textAlign(CENTER, CENTER);
     text("GAME OVER", width / 2, height / 2)
+    pop();
+}
+
+function gameWin() {
+    gameActive = false;
+    drawBox("green", 0, 0, 1000, 1000)
+    push();
+    fill("white");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("YOU WIN", width / 2, height / 2)
     pop();
 }
