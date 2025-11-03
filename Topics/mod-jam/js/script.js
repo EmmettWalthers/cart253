@@ -36,8 +36,8 @@ function preload() {
 function draw() {
     background("#87ceeb");
     gameStart();
-    drawFrog();
     drawScene2();
+    drawFrog();
 }
 
 function drawCircle(color, x, y, size) {
@@ -90,6 +90,8 @@ function drawScene1() { // This Function draw the Intro Scene
     textAlign(CENTER, CENTER);
     text("Click the Frog to Start", width / 7, height / 1.05)
     pop();
+
+    
 }
 
 function drawScene2() {
@@ -99,6 +101,10 @@ function drawScene2() {
         skySize += 10
         }
         drawCircle("#87ceeb", width / 2, height / 2, skySize)
+    }
+
+    if (skySize == 1000) {
+        gameActive = true
     }
 }
 
