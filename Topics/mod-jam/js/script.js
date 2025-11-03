@@ -8,6 +8,7 @@ let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576];
 let currentLane = 2;
+let hunger = 0;
 
 const frog = {
     // The frog's body has a position and size
@@ -33,6 +34,7 @@ function draw() {
     drawScene2();
     gameScene();
     drawFrog();
+    drawHungerBar();
 }
 
 function drawCircle(color, x, y, size) {
@@ -131,6 +133,10 @@ function mousePressed() {
             scene = 2
         }
     }
+}
+
+function drawHungerBar() {
+    drawBox("red", 0, 0, hunger, 25)
 }
 
 function keyPressed() {
