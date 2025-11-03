@@ -134,13 +134,13 @@ function mousePressed() {
 
 function keyPressed() {
     if (gameActive) {
-        if (keyCode === LEFT_ARROW && currentLane > 0) {
+        if (keyCode == LEFT_ARROW && currentLane > 0) {
             currentLane--;
         } 
-        else if (keyCode === RIGHT_ARROW && currentLane < lanes.length - 1) {
+        else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
             currentLane++;
         }
-        
+
         frog.body.x = lanes[currentLane];
     }
 }
