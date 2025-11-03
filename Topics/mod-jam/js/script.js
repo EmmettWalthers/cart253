@@ -2,6 +2,8 @@
 "use strict";
 
 let gameActive = false;
+let titleImg;
+let swayAngle = 0;
 
 const frog = {
     // The frog's body has a position and size
@@ -23,6 +25,10 @@ const frog = {
 
 function setup() {
     createCanvas(640, 480);
+}
+
+function preload() {
+    titleImg = loadImage("assets/images/title.png");
 }
 
 function draw() {
@@ -61,12 +67,17 @@ function drawScene1() { // This Function draw the Intro Scene
     drawCircle("white", width / 2 + width / 4, height / 4, 150);
     drawCircle("white", width / 2 + width / 3, height / 3, 150);
     drawCircle("white", width / 2 + width / 6, height / 3, 150);
-    // Frog Dude Text
+
+    // Adds Sway to the Title
+    swayAngle += 0.02; // Sway Speed
+    let sway = sin(swayAngle) * 0.1; // Max rotation angle
+
+    // Displays Title Image with Sway
+    imageMode(CENTER);
     push();
-    fill("black");
-    textSize(32);
-    textAlign(CENTER);
-    text("Frog Dude", width / 2, height / 2)
+    translate(width / 2, height / 3);
+    rotate(sway);                     
+    image(titleImg, 0, 0);        
     pop();
 }
 
