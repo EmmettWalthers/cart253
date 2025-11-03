@@ -4,6 +4,7 @@
 let gameActive = false;
 let titleImg;
 let moveSFX;
+let crunchSFX;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
@@ -35,6 +36,9 @@ function setup() {
 function preload() {
     titleImg = loadImage("assets/images/title.png");
     moveSFX = loadSound("assets/sounds/move.mp3");
+    crunchSFX = loadSound("assets/sounds/crunch.wav");
+    moveSFX.setVolume(0.25);
+    crunchSFX.setVolume(0.25);
 }
 
 function draw() {
@@ -190,16 +194,20 @@ function flyEaten() {
     if (d < (fly.size / 2 + 20)) {
         resetFly();
         hunger += 75;
+        crunchSFX.play();
     }
 }
 
 function keyPressed() {
     if (gameActive) {
         if (keyCode == LEFT_ARROW && currentLane > 0) {
-            currentLane--;
+            currentLane -= 1;
+            moveSFX.play();
+
         } 
         else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
-            currentLane++;
+            currentLane += 1;
+            moveSFX.play();
         }
 
         frog.body.x = lanes[currentLane];
