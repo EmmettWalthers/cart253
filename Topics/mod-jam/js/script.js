@@ -3,12 +3,13 @@
 
 let gameActive = false;
 let titleImg;
+let moveSFX;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576];
 let currentLane = 2;
-let hunger = 0;
+let hunger = 150;
 
 const frog = {
     // The frog's body has a position and size
@@ -33,6 +34,7 @@ function setup() {
 
 function preload() {
     titleImg = loadImage("assets/images/title.png");
+    moveSFX = loadSound("assets/sounds/move.mp3");
 }
 
 function draw() {
@@ -41,10 +43,6 @@ function draw() {
     drawScene2();
     gameScene();
     drawFrog();
-    drawHungerBar();
-    drawFly();
-    moveFly();
-    flyEaten();
 }
 
 function drawCircle(color, x, y, size) {
@@ -129,10 +127,18 @@ function drawFrog() {
 function gameScene() {
     if (gameActive == true) {
         // Draw Lanes
-        drawBox("black", 128, 0, 1, 1000)
-        drawBox("black", 256, 0, 1, 1000)
-        drawBox("black", 384, 0, 1, 1000)
-        drawBox("black", 512, 0, 1, 1000)
+        drawBox("white", 128, 0, 0.5, 1000)
+        drawBox("white", 256, 0, 0.5, 1000)
+        drawBox("white", 384, 0, 0.5, 1000)
+        drawBox("white", 512, 0, 0.5, 1000)
+        // Call Fly Functions
+        drawFly();
+        moveFly();
+        flyEaten();
+        // Hunger Bar
+        drawHungerBar();
+        hunger -= 0.25;
+        // Fly Speed
     }
 }
 
@@ -173,6 +179,9 @@ function moveFly() {
 function resetFly() {
     fly.y = 0;
     fly.x = random(lanes);
+    if (fly.speed < 7.5) {
+        fly.speed += 0.1
+    }
 }
 
 function flyEaten() {
