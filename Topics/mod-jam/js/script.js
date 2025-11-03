@@ -24,7 +24,7 @@ const fly = {
     x: 320, // Random Lane
     y: 0, 
     size: 10,
-    speed: 3
+    speed: 5
 };
 
 function setup() {
@@ -44,6 +44,7 @@ function draw() {
     drawHungerBar();
     drawFly();
     moveFly();
+    flyEaten();
 }
 
 function drawCircle(color, x, y, size) {
@@ -149,26 +150,38 @@ function drawHungerBar() {
 }
 
 function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
+    if (gameActive == true) {
+        push();
+        noStroke();
+        fill("#000000");
+        ellipse(fly.x, fly.y, fly.size);
+        pop();
+    }
 }
 
 function moveFly() {
-    // Move the fly
-    fly.y += fly.speed;
-    // Handle the fly going off the canvas
-    if (fly.y > height) {
-        resetFly();
+    if (gameActive == true) {
+        // Move the fly
+        fly.y += fly.speed;
+        // Handle the fly going off the canvas
+        if (fly.y > height) {
+            resetFly();
+        }
     }
 }
 
 function resetFly() {
-    console.log("reset")
     fly.y = 0;
     fly.x = random(lanes);
+}
+
+function flyEaten() {
+    let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
+
+    if (d < (fly.size / 2 + 20)) {
+        resetFly();
+        hunger += 75;
+    }
 }
 
 function keyPressed() {
@@ -183,6 +196,3 @@ function keyPressed() {
         frog.body.x = lanes[currentLane];
     }
 }
-
-
-
