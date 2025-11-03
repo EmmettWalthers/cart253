@@ -11,22 +11,14 @@ const frog = {
     // The frog's body has a position and size
     body: {
         x: 320,
-        y: 480,
-        size: 200
+        y: 750,
+        size: 150
     },
     // The frog's tongue has a position, size, speed, and state
-    tongue: {
-        x: undefined,
-        y: 480,
-        size: 20,
-        speed: 20,
-        // Determines how the tongue moves each frame
-        state: "idle" // State can be: idle, outbound, inbound
-    }
 };
 
 function setup() {
-    createCanvas(640, 480);
+    createCanvas(640, 750);
 }
 
 function preload() {
@@ -37,6 +29,7 @@ function draw() {
     background("#87ceeb");
     gameStart();
     drawScene2();
+    gameScene();
     drawFrog();
 }
 
@@ -48,11 +41,11 @@ function drawCircle(color, x, y, size) {
     pop();
 }
 
-function drawBox(color, x, y, size) {
+function drawBox(color, x, y, w, h) {
     push();
     fill(color);
     noStroke();
-    ellipse(x, y, size);
+    rect(x, y, w, h);
     pop();
 }
 
@@ -88,10 +81,8 @@ function drawScene1() { // This Function draw the Intro Scene
     fill("black");
     textSize(16);
     textAlign(CENTER, CENTER);
-    text("Click the Frog to Start", width / 7, height / 1.05)
+    text("Click the Frog to Start", width / 7, height / 1.03)
     pop();
-
-    
 }
 
 function drawScene2() {
@@ -112,10 +103,22 @@ function drawFrog() {
     // Draw the frog's body
     drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
     // Draw the eyes
-    drawCircle("white", frog.body.x - 50, frog.body.y - 75, 50)
-    drawCircle("white", frog.body.x + 50, frog.body.y - 75, 50)
-    drawCircle("black", frog.body.x - 50, frog.body.y - 75, 30)
-    drawCircle("black", frog.body.x + 50, frog.body.y - 75, 30)
+    drawCircle("white", frog.body.x - 50, frog.body.y - 60, 40)
+    drawCircle("white", frog.body.x + 50, frog.body.y - 60, 40)
+    drawCircle("black", frog.body.x - 50, frog.body.y - 60, 20)
+    drawCircle("black", frog.body.x + 50, frog.body.y - 60, 20)
+    // Draw the Mouth
+    drawCircle("red", frog.body.x, frog.body.y - 60, 20)
+}
+
+function gameScene() {
+    if (gameActive == true) {
+        // Draw Lanes
+        drawBox("black", 128, 0, 2.5, 1000)
+        drawBox("black", 256, 0, 2.5, 1000)
+        drawBox("black", 384, 0, 2.5, 1000)
+        drawBox("black", 512, 0, 2.5, 1000)
+    }
 }
 
 function mousePressed() {
@@ -126,3 +129,6 @@ function mousePressed() {
         }
     }
 }
+
+
+
