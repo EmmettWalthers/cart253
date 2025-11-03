@@ -20,6 +20,13 @@ const frog = {
     // The frog's tongue has a position, size, speed, and state
 };
 
+const fly = {
+    x: 320, // Random Lane
+    y: 0, 
+    size: 10,
+    speed: 3
+};
+
 function setup() {
     createCanvas(640, 750);
 }
@@ -35,6 +42,8 @@ function draw() {
     gameScene();
     drawFrog();
     drawHungerBar();
+    drawFly();
+    moveFly();
 }
 
 function drawCircle(color, x, y, size) {
@@ -137,6 +146,29 @@ function mousePressed() {
 
 function drawHungerBar() {
     drawBox("red", 0, 0, hunger, 25)
+}
+
+function drawFly() {
+    push();
+    noStroke();
+    fill("#000000");
+    ellipse(fly.x, fly.y, fly.size);
+    pop();
+}
+
+function moveFly() {
+    // Move the fly
+    fly.y += fly.speed;
+    // Handle the fly going off the canvas
+    if (fly.y > height) {
+        resetFly();
+    }
+}
+
+function resetFly() {
+    console.log("reset")
+    fly.y = 0;
+    fly.x = random(lanes);
 }
 
 function keyPressed() {
