@@ -47,6 +47,7 @@ function draw() {
     drawScene2();
     gameScene();
     drawFrog();
+    gameOver();
 }
 
 function drawCircle(color, x, y, size) {
@@ -129,7 +130,7 @@ function drawFrog() {
 }
 
 function gameScene() {
-    if (gameActive == true) {
+    if (gameActive) {
         // Draw Lanes
         drawBox("white", 128, 0, 0.5, 1000)
         drawBox("white", 256, 0, 0.5, 1000)
@@ -160,7 +161,7 @@ function drawHungerBar() {
 }
 
 function drawFly() {
-    if (gameActive == true) {
+    if (gameActive) {
         push();
         noStroke();
         fill("#000000");
@@ -170,7 +171,7 @@ function drawFly() {
 }
 
 function moveFly() {
-    if (gameActive == true) {
+    if (gameActive) {
         // Move the fly
         fly.y += fly.speed;
         // Handle the fly going off the canvas
@@ -185,6 +186,7 @@ function resetFly() {
     fly.x = random(lanes);
     if (fly.speed < 7.5) {
         fly.speed += 0.1
+        gameLose()
     }
 }
 
@@ -212,4 +214,27 @@ function keyPressed() {
 
         frog.body.x = lanes[currentLane];
     }
+}
+
+function gameOver() {
+    if (gameActive) {
+        if (hunger == 0) {
+            gameLose();
+        }
+        else if (hunger >= 750) {
+            gameWin();
+        }
+    }
+
+}
+
+function gameLose() {
+    gameActive = false
+    drawBox("red", 0, 0, 1000, 1000)
+    push();
+    fill("white");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("GAME OVER", width / 2, height / 2)
+    pop();
 }
