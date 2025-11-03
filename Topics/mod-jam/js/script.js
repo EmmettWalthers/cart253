@@ -142,7 +142,7 @@ function gameScene() {
         flyEaten();
         // Hunger Bar
         drawHungerBar();
-        hunger -= 0.25;
+        hunger -= 0.5;
         // Fly Speed
     }
 }
@@ -186,7 +186,6 @@ function resetFly() {
     fly.x = random(lanes);
     if (fly.speed < 7.5) {
         fly.speed += 0.1
-        gameLose()
     }
 }
 
@@ -217,15 +216,12 @@ function keyPressed() {
 }
 
 function gameOver() {
-    if (gameActive) {
-        if (hunger == 0) {
-            gameLose();
-        }
-        else if (hunger >= 750) {
-            gameWin();
-        }
+    if (hunger <= 0) {
+        gameLose();
     }
-
+    else if (hunger >= 750) {
+        gameWin();
+    }
 }
 
 function gameLose() {
