@@ -6,6 +6,8 @@ let titleImg;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
+let lanes = [64, 192, 320, 448, 576];
+let currentLane = 2;
 
 const frog = {
     // The frog's body has a position and size
@@ -114,10 +116,10 @@ function drawFrog() {
 function gameScene() {
     if (gameActive == true) {
         // Draw Lanes
-        drawBox("black", 128, 0, 2.5, 1000)
-        drawBox("black", 256, 0, 2.5, 1000)
-        drawBox("black", 384, 0, 2.5, 1000)
-        drawBox("black", 512, 0, 2.5, 1000)
+        drawBox("black", 128, 0, 1, 1000)
+        drawBox("black", 256, 0, 1, 1000)
+        drawBox("black", 384, 0, 1, 1000)
+        drawBox("black", 512, 0, 1, 1000)
     }
 }
 
@@ -127,6 +129,19 @@ function mousePressed() {
         if (d < frog.body.size / 2) {
             scene = 2
         }
+    }
+}
+
+function keyPressed() {
+    if (gameActive) {
+        if (keyCode === LEFT_ARROW && currentLane > 0) {
+            currentLane--;
+        } 
+        else if (keyCode === RIGHT_ARROW && currentLane < lanes.length - 1) {
+            currentLane++;
+        }
+        
+        frog.body.x = lanes[currentLane];
     }
 }
 
