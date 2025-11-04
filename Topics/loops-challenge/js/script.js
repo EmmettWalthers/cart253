@@ -12,6 +12,7 @@
  */
 function setup() {
     createCanvas(500, 500);
+    console.log("Created")
 }
 
 /**
@@ -19,8 +20,6 @@ function setup() {
  * gradually lightening colour
  */
 function draw() {
-    background("black")
-
     for (let x = 0; x < width; x += 1) {
         let m = map(x, 0, width, 0, 255);
         stroke(m, 100, 150);
