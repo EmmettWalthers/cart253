@@ -20,12 +20,14 @@ let gameActive = false;
 let titleImg;
 let moveSFX;
 let crunchSFX;
+let hurtSFX;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
 let hunger = 128;
+let blueFlyChance = 10;
 
 const frog = {
     // The frog's body has a position and size
@@ -40,7 +42,8 @@ const fly = {
     x: 320, // Random Lane
     y: 0, 
     size: 10,
-    speed: 5
+    speed: 5,
+    status: 100
 };
 
 // Creates the canvas
@@ -53,7 +56,9 @@ function preload() {
     titleImg = loadImage("assets/images/title.png");
     moveSFX = loadSound("assets/sounds/move.mp3");
     crunchSFX = loadSound("assets/sounds/crunch.wav");
+    hurtSFX = loadSound("assets/sounds/hurt.wav");
     moveSFX.setVolume(0.25);
+    hurtSFX.setVolume(0.25);
     crunchSFX.setVolume(0.25);
 }
 
@@ -113,9 +118,8 @@ function titleScreen() {
         push();
         fill("black");
         textSize(16);
-        textAlign(CENTER, CENTER);
-        text("Click the Frog to Start", width / 7.5, height / 1.05)
-        text("Use ARROW keys to move frog", width / 5.3, height / 1.02)
+        textAlign(screenLeft, CENTER);
+        text("Click the Frog to Start \nUse ARROW keys to move frog \nAvoid blue flies or ELSE", 10, 710)
         pop();
     }
 }
@@ -192,11 +196,21 @@ function drawFrog() {
 // Draws the fly (if gameActive is True)
 function drawFly() {
     if (gameActive) {
-        push();
-        noStroke();
-        fill("#000000");
-        ellipse(fly.x, fly.y, fly.size);
-        pop();
+        if (fly.status > blueFlyChance) {
+            push();
+            noStroke();
+            fill("#000000");
+            ellipse(fly.x, fly.y, fly.size);
+            pop();
+        }
+
+        else {
+            push();
+            noStroke();
+            fill("blue");
+            ellipse(fly.x, fly.y, fly.size);
+            pop();
+        }
     }
 }
 
@@ -218,6 +232,7 @@ function resetFly() {
         fly.y = 0;
         // Starts the fly in a random lane using the variable list 'lanes'
         fly.x = random(lanes);
+        fly.status = random(1, 100);
     }
 }
 
@@ -226,10 +241,16 @@ function flyEaten() {
     // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
     // If fly enters that radius, trigger resetFly, add hunger to the bar, and play sound effect
-    if (d < (fly.size / 2 + 20)) {
+    if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
         resetFly();
         hunger += 128;
         crunchSFX.play();
+    }
+
+    else if (d < (fly.size / 2 + 20) && fly.status < blueFlyChance) {
+        resetFly();
+        hunger -= 64;
+        hurtSFX.play();
     }
 }
 
