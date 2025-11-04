@@ -21,6 +21,7 @@ let titleImg;
 let moveSFX;
 let crunchSFX;
 let hurtSFX;
+let bgMusic;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
@@ -57,6 +58,8 @@ function preload() {
     moveSFX = loadSound("assets/sounds/move.mp3");
     crunchSFX = loadSound("assets/sounds/crunch.wav");
     hurtSFX = loadSound("assets/sounds/hurt.wav");
+    bgMusic = loadSound("assets/sounds/bg.mp3");
+    bgMusic.setVolume(0.10);
     moveSFX.setVolume(0.25);
     hurtSFX.setVolume(0.25);
     crunchSFX.setVolume(0.25);
@@ -161,11 +164,12 @@ function gameScene() {
 
 // Detects when mouse is pressed
 function mousePressed() {
-    // if mouse is inside the frogs body and is clicked, switch scenes
+    // if mouse is inside the frogs body and is clicked, switch scenes and start music
     if (scene == 1) {
         let d = dist(mouseX, mouseY, frog.body.x, frog.body.y);
         if (d < frog.body.size / 2) {
             scene = 2
+            bgMusic.loop();
         }
     }
 }
@@ -232,6 +236,7 @@ function resetFly() {
         fly.y = 0;
         // Starts the fly in a random lane using the variable list 'lanes'
         fly.x = random(lanes);
+        // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
         fly.status = random(1, 100);
     }
 }
@@ -240,13 +245,13 @@ function resetFly() {
 function flyEaten() {
     // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-    // If fly enters that radius, trigger resetFly, add hunger to the bar, and play sound effect
+    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add hunger to the bar, and play crunch SFX
     if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
         resetFly();
         hunger += 128;
         crunchSFX.play();
     }
-
+    // If fly enters that radius & status is lower than blue fly chance, trigger resetFly, remove hunger from the bar, and play hurt SFX
     else if (d < (fly.size / 2 + 20) && fly.status < blueFlyChance) {
         resetFly();
         hunger -= 64;
