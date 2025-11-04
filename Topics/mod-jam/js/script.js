@@ -10,7 +10,7 @@ let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576];
 let currentLane = 2;
-let hunger = 150;
+let hunger = 128;
 
 const frog = {
     // The frog's body has a position and size
@@ -144,7 +144,7 @@ function mousePressed() {
 
 function drawHungerBar() {
     drawBox("red", 0, 0, hunger, 25)
-    if (hunger < 750) {
+    if (hunger < 640) {
         hunger -= 0.5;
     }
 }
@@ -183,10 +183,12 @@ function moveFly() {
 }
 
 function resetFly() {
-    fly.y = 0;
-    fly.x = random(lanes);
-    if (fly.speed < 7.5) {
-        fly.speed += 0.1
+    if (gameActive) {
+        fly.y = 0;
+        fly.x = random(lanes);
+        if (fly.speed < 7.5) {
+            fly.speed += 0.1
+        }
     }
 }
 
@@ -195,7 +197,7 @@ function flyEaten() {
 
     if (d < (fly.size / 2 + 20)) {
         resetFly();
-        hunger += 150;
+        hunger += 128;
         crunchSFX.play();
     }
 }
@@ -219,9 +221,11 @@ function keyPressed() {
 function gameOver() {
     if (hunger <= 0) {
         gameLose();
+        fly.speed = 0
     }
-    else if (hunger >= 750) {
+    else if (hunger >= 640) {
         gameWin();
+        fly.speed = 0
     }
 }
 
