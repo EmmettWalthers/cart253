@@ -7,6 +7,13 @@
 
 "use strict";
 
+const user = {
+  x: undefined, // will be mouseX
+  y: undefined, // will be mouseY
+  size: 25,
+  fill: "#ffee00ff"
+};
+
 /**
  * Creates the canvas
  */
@@ -38,5 +45,22 @@ function draw() {
         strokeSize += 25
         x += 50
         y += 50
-    }
+    }   
+
+    moveUser()
+    drawUser()
+}
+
+
+function moveUser() {
+  user.x = mouseX;
+  user.y = mouseY;
+}
+
+function drawUser() {
+  push();
+  noStroke();
+  fill(user.fill);
+  ellipse(user.x, user.y, user.size);
+  pop();
 }
