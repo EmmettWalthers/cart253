@@ -1,4 +1,4 @@
-# TITLE OF PROJECT
+# Loops Challenge
 
 Emmett Walthers & Jordan Lobazzo
 
