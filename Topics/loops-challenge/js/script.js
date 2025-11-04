@@ -19,7 +19,7 @@ function setup() {
  * gradually lightening colour
  */
 function draw() {
-    background("white")
+    background("black")
 
     for (let x = 0; x < width; x += 1) {
         let m = map(x, 0, width, 0, 255);
