@@ -1,24 +1,43 @@
 /**
- * Title of Project
- * Author Name
+ * Lines
+ * Emmett Walthers & Jordan Lobazzo
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * A series of lines across the canvas
  */
 
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
+ * Creates the canvas
+ */
 function setup() {
-
+    createCanvas(500, 500);
 }
 
-
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
-*/
+ * Draws lines across the canvas with increasing thickness and
+ * gradually lightening colour
+ */
 function draw() {
 
+    for (let x = 0; x < width; x += 1) {
+        let m = map(x, 0, width, 0, 255);
+        stroke(m, 100, 150);
+        line(x, 0, x, height);
+    }
+
+    let strokeSize = 0;
+    let x = 0;
+    let y = 0;
+    while (strokeSize <= 250) {
+        stroke(strokeSize);
+        line(x, 0, y, height);
+
+        stroke(strokeSize);
+        line(0, x, width, y);
+
+        strokeSize += 25
+        x += 50
+        y += 50
+    }
 }
