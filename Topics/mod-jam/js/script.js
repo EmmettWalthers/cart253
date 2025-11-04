@@ -1,14 +1,29 @@
+/**
+ * Frog Dude (the game)
+ * Emmett Walthers
+ * 
+ * A game where the player controls a frog and tries to eat flies which
+ * come down different lanes vertically
+ * 
+ * Controls: 
+ * - Use arrow keys to switch lanes
+ * 
+ * Uses:
+ * p5.js
+ * https://p5js.org
+ */
 
 "use strict";
 
-let gameActive = false;
+// Variables
+let gameActive = false; 
 let titleImg;
 let moveSFX;
 let crunchSFX;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
-let lanes = [64, 192, 320, 448, 576];
+let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
 let hunger = 128;
 
@@ -19,7 +34,6 @@ const frog = {
         y: 750,
         size: 150
     },
-    // The frog's tongue has a position, size, speed, and state
 };
 
 const fly = {
@@ -29,10 +43,12 @@ const fly = {
     speed: 5
 };
 
-function setup() {
+// Creates the canvas
+function setup() { 
     createCanvas(640, 750);
 }
 
+// Preloads all the images and sounds
 function preload() {
     titleImg = loadImage("assets/images/title.png");
     moveSFX = loadSound("assets/sounds/move.mp3");
@@ -41,6 +57,7 @@ function preload() {
     crunchSFX.setVolume(0.25);
 }
 
+// Calls certain functions every frame
 function draw() {
     background("#87ceeb");
     titleScreen();
@@ -50,6 +67,7 @@ function draw() {
     gameOver();
 }
 
+// Draws a circle using given parameters
 function drawCircle(color, x, y, size) {
     push();
     fill(color);
@@ -58,6 +76,7 @@ function drawCircle(color, x, y, size) {
     pop();
 }
 
+// Draws a rectangle using given parameters
 function drawBox(color, x, y, w, h) {
     push();
     fill(color);
@@ -66,7 +85,8 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-function titleScreen() { // This Function draw the Intro Scene
+// This Function draws the Title Screen if gameActive is false
+function titleScreen() {
     if (!gameActive) {
 
         // Draw Clouds
@@ -89,7 +109,7 @@ function titleScreen() { // This Function draw the Intro Scene
         image(titleImg, 0, 0);        
         pop();
 
-        // Instructions Text
+        // Displays Instructions Text
         push();
         fill("black");
         textSize(16);
@@ -100,20 +120,22 @@ function titleScreen() { // This Function draw the Intro Scene
     }
 }
 
+// Transition Animation when frog is click and game starts
 function drawTransition() {
-    // Starting Animation
+    // When scene is changed, activate transition
     if (scene == 2) {
         if (skySize < 1000) {
         skySize += 15
         }
         drawCircle("#87ceeb", width / 2, height / 2, skySize)
     }
-
+    // When the circle (sky) reaches proper size, set gameActive to true
     if (skySize >= 1000) {
         gameActive = true
     }
 }
 
+// Draws everything needed for the main game + calls the functions needed to play
 function gameScene() {
     if (gameActive) {
 
@@ -133,7 +155,9 @@ function gameScene() {
     }
 }
 
+// Detects when mouse is pressed
 function mousePressed() {
+    // if mouse is inside the frogs body and is clicked, switch scenes
     if (scene == 1) {
         let d = dist(mouseX, mouseY, frog.body.x, frog.body.y);
         if (d < frog.body.size / 2) {
@@ -142,13 +166,17 @@ function mousePressed() {
     }
 }
 
+// Draws the hunger bar
 function drawHungerBar() {
+    // Draws the actual bar
     drawBox("red", 0, 0, hunger, 25)
+    // If hunger isn't maxed out already, slowly take it away
     if (hunger < 640) {
         hunger -= 0.5;
     }
 }
 
+// Draws the frog
 function drawFrog() {
     // Draw the frog's body
     drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
@@ -161,6 +189,7 @@ function drawFrog() {
     drawCircle("red", frog.body.x, frog.body.y - 60, 20)
 }
 
+// Draws the fly (if gameActive is True)
 function drawFly() {
     if (gameActive) {
         push();
@@ -171,6 +200,7 @@ function drawFly() {
     }
 }
 
+// Moves the fly (if gameActive is True)
 function moveFly() {
     if (gameActive) {
         // Move the fly
@@ -182,19 +212,20 @@ function moveFly() {
     }
 }
 
+// Resets the fly (if gameActive is True)
 function resetFly() {
     if (gameActive) {
         fly.y = 0;
+        // Starts the fly in a random lane using the variable list 'lanes'
         fly.x = random(lanes);
-        if (fly.speed < 7.5) {
-            fly.speed += 0.1
-        }
     }
 }
 
+// Activates when fly enters frogs mouth
 function flyEaten() {
+    // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-
+    // If fly enters that radius, trigger resetFly, add hunger to the bar, and play sound effect
     if (d < (fly.size / 2 + 20)) {
         resetFly();
         hunger += 128;
@@ -202,33 +233,41 @@ function flyEaten() {
     }
 }
 
+// Detects key presses (if gameActive is True)
 function keyPressed() {
     if (gameActive) {
+        // Moves frog to the left if not in the first lane and plays SFX
         if (keyCode == LEFT_ARROW && currentLane > 0) {
             currentLane -= 1;
             moveSFX.play();
 
         } 
+        // Moves frog to the right if not in the last lane and plays SFX
         else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
             currentLane += 1;
             moveSFX.play();
         }
-
+        // Moves frogs body to the given lane
         frog.body.x = lanes[currentLane];
     }
 }
 
+// Checks if game should be over
 function gameOver() {
+    // Activates gameLose if hunger reaches 0
     if (hunger <= 0) {
         gameLose();
         fly.speed = 0
     }
+    // Activates gameWin if hunger reaches 640 (max)
     else if (hunger >= 640) {
         gameWin();
+        // Stops fly from moving anymore
         fly.speed = 0
     }
 }
 
+// Activates Game Over screen
 function gameLose() {
     gameActive = false;
     drawBox("red", 0, 0, 1000, 1000)
@@ -240,6 +279,7 @@ function gameLose() {
     pop();
 }
 
+// Activates Game Win screen
 function gameWin() {
     gameActive = false;
     drawBox("green", 0, 0, 1000, 1000)
