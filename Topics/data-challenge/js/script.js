@@ -1,6 +1,6 @@
 /**
  * Terrible New Car
- * Pippin Barr
+ * Emmett Walthers
  * 
  * A program to generate new car model names using dinosaurs.
  * 
