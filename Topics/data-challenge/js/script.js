@@ -23,7 +23,8 @@ let carName = "Click to generate a car name.";
  * Load the car and dinosaur data
  */
 function preload() {
-
+    carData = loadJSON("assets/data/cars.json")
+    dinosaurData = loadJSON("assets/data/dinosaurs.json")
 }
 
 /**
@@ -40,7 +41,7 @@ function draw() {
     background(0);
 
     push();
-    fill("pink");
+    fill("white");
     textAlign(CENTER, CENTER);
     textSize(32);
     text(carName, width / 2, height / 2);
@@ -51,5 +52,7 @@ function draw() {
  * Generate a new car name
  */
 function mousePressed() {
-
+    let car = random(carData.cars);
+    let dino = random(dinosaurData.dinosaurs)
+    carName = car + " " + dino;
 }
