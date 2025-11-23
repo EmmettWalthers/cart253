@@ -1,3 +1,17 @@
+/**
+ * Frog Dude (the game)
+ * Emmett Walthers
+ * 
+ * A game where the player controls a frog and tries to eat flies which
+ * come down different lanes vertically
+ * 
+ * Controls: 
+ * - Use arrow keys to switch lanes
+ * 
+ * Uses:
+ * p5.js
+ * https://p5js.org
+ */
 "use strict";
 
 // Variables
@@ -12,9 +26,11 @@ let swayAngle = 0;
 let skySize = 0;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
+let laneGoal = 2;
 let hunger = 128;
 let blueFlyChance = 10;
 let flySpeed = 5;
+let direction = undefined;
 
 const frog = {
     body: {
@@ -33,6 +49,7 @@ const fly = {
 
 function setup() { 
     createCanvas(640, 750);
+    setInterval(moveFrog, 500);
 }
 
 function preload() {
@@ -54,6 +71,7 @@ function draw() {
     gameScene();
     drawFrog();
     gameOver();
+    console.log(currentLane)
 }
 
 function drawCircle(color, x, y, size) {
@@ -171,7 +189,25 @@ function flyEaten() {
     }
 }
 
-function keyPressed() {
+function moveFrog() {
+    if (currentLane == 0) {
+        direction = 1;
+    }
+    else if (currentLane == lanes.length - 1) {
+        direction = -1;
+    }
+    else {
+        direction = random([-1, 1]);
+    }
+
+    let newLane = currentLane + direction;
+    if (newLane >= 0 && newLane < lanes.length) {
+        currentLane = newLane;
+        frog.body.x = lanes[currentLane];
+    }
+}
+
+/* function keyPressed() {
     if (gameActive) {
         if (keyCode == LEFT_ARROW && currentLane > 0) {
             currentLane -= 1;
@@ -183,7 +219,7 @@ function keyPressed() {
         }
         frog.body.x = lanes[currentLane];
     }
-}
+} */
 
 function gameOver() {
     if (hunger <= 0) {
