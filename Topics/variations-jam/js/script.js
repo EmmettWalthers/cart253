@@ -29,6 +29,7 @@ let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
 let hunger = 128;
 let blueFlyChance = 10;
+let flySpeed = 5;
 
 const frog = {
     // The frog's body has a position and size
@@ -43,7 +44,6 @@ const fly = {
     x: 320, // Random Lane
     y: 0, 
     size: 10,
-    speed: 5,
     status: 100
 };
 
@@ -222,7 +222,7 @@ function drawFly() {
 function moveFly() {
     if (gameActive) {
         // Move the fly
-        fly.y += fly.speed;
+        fly.y += flySpeed;
         // Handle the fly going off the canvas
         if (fly.y > height) {
             resetFly();
@@ -238,6 +238,8 @@ function resetFly() {
         fly.x = random(lanes);
         // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
         fly.status = random(1, 100);
+        // Increases fly speed everytime it resets
+        flySpeed += 0.5
     }
 }
 
