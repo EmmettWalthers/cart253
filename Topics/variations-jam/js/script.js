@@ -68,6 +68,7 @@ function preload() {
 // Calls certain functions every frame
 function draw() {
     background("#87ceeb");
+    drawClouds();
     titleScreen();
     drawTransition();
     gameScene();
@@ -93,10 +94,9 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-// This Function draws the Title Screen if gameActive is false
-function titleScreen() {
+// This Function draws the clouds in the background if gameActive is false
+function drawClouds() {
     if (!gameActive) {
-
         // Draw Clouds
         drawCircle("white", width / 4, height / 4, 150);
         drawCircle("white", width / 3, height / 3, 150);
@@ -104,6 +104,12 @@ function titleScreen() {
         drawCircle("white", width / 2 + width / 4, height / 4, 150);
         drawCircle("white", width / 2 + width / 3, height / 3, 150);
         drawCircle("white", width / 2 + width / 6, height / 3, 150);
+    }
+}
+
+// This Function draws the Title Screen if gameActive is false
+function titleScreen() {
+    if (!gameActive) {
 
         // Adds Sway to the Title
         swayAngle += 0.02; // Sway Speed
