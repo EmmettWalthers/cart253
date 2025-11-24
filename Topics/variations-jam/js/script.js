@@ -113,8 +113,7 @@ function gameScene() {
         drawBox("white", 256, 0, 0.5, 1000);
         drawBox("white", 384, 0, 0.5, 1000);
         drawBox("white", 512, 0, 0.5, 1000);
-        drawText("white", 64, fliesLeft, width / 2, height - 600);
-        drawText("white", 64, fliesNeeded, width / 4, height - 600);
+        drawText("white", 64, fliesNeeded, width / 2, height - 600);
         drawFly();
         moveFly();
         drawHungerBar();
@@ -175,7 +174,7 @@ function resetFly() {
             flySpeed = 0;
         }
         fliesLeft -= 1;
-
+        hunger -= 640 / 15;
     }
 }
 
