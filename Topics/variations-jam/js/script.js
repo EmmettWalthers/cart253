@@ -28,7 +28,7 @@ let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
 let flyLane = 2;
 let laneGoal = 2;
-let hunger = 600;
+let hunger = 640;
 let flySpeed = 2.5;
 let frogSpeed = 1000;
 let direction = undefined;
@@ -114,9 +114,11 @@ function gameScene() {
         drawBox("white", 384, 0, 0.5, 1000);
         drawBox("white", 512, 0, 0.5, 1000);
         drawText("white", 64, fliesLeft, width / 2, height - 600);
+        drawText("white", 64, fliesNeeded, width / 4, height - 600);
         drawFly();
         moveFly();
         drawHungerBar();
+        flyEaten();
     }
 }
 
@@ -133,9 +135,6 @@ function mousePressed() {
 
 function drawHungerBar() {
     drawBox("red", 0, 0, hunger, 25)
-    if (hunger < 640) {
-        hunger -= 0.5;
-    }
 }
 
 function drawFrog() {
@@ -167,7 +166,9 @@ function resetFly() {
         if (fliesLeft >= fliesNeeded) {
             fly.y = 0;
             flyLane = floor(random(lanes.length));
-            fly.x = lanes[flyLane]
+            fly.x = lanes[flyLane];
+            frogSpeed -= 50;
+            fliesNeeded -= 1;
         }
         else {
             gameActive = false;
@@ -178,19 +179,14 @@ function resetFly() {
     }
 }
 
-/* function flyEaten() {
+function flyEaten() {
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-    if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
+    if (d < (fly.size / 2 + 20)) {
         resetFly();
-        hunger += 128;
+        fliesNeeded += 1;
         crunchSFX.play();
     }
-    else if (d < (fly.size / 2 + 20) && fly.status < blueFlyChance) {
-        resetFly();
-        hunger -= 64;
-        hurtSFX.play();
-    }
-} */
+}
 
 function moveFrog() {
     if (gameActive) {
@@ -228,12 +224,8 @@ function keyPressed() {
 
 function gameOver() {
     if (hunger <= 0) {
-        gameLose();
-        fly.speed = 0
     }
     else if (hunger >= 640) {
-        gameWin();
-        fly.speed = 0
     }
 }
 
