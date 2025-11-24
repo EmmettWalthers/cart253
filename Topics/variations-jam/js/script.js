@@ -32,6 +32,8 @@ let hunger = 600;
 let flySpeed = 2.5;
 let frogSpeed = 1000;
 let direction = undefined;
+let fliesLeft = 15;
+let fliesNeeded = 10;
 
 const frog = {
     body: {
@@ -89,6 +91,15 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
+function drawText(color, size, text, x, y) {
+    push();
+    fill("color");
+    textSize(size);
+    textAlign(CENTER, CENTER);
+    text(text, x, y)
+    pop();
+}
+
 function drawPlayButton() {
     if (!gameActive) {
         imageMode(CENTER);
@@ -102,6 +113,12 @@ function gameScene() {
         drawBox("white", 256, 0, 0.5, 1000)
         drawBox("white", 384, 0, 0.5, 1000)
         drawBox("white", 512, 0, 0.5, 1000)
+        push();
+        fill("white");
+        textSize(64);
+        textAlign(CENTER, CENTER);
+        text(fliesLeft, width / 2, height - 600)
+        pop();
         drawFly();
         moveFly();
         drawHungerBar();
@@ -152,9 +169,16 @@ function moveFly() {
 
 function resetFly() {
     if (gameActive) {
-        fly.y = 0;
-        flyLane = floor(random(lanes.length));
-        fly.x = lanes[flyLane]
+        if (fliesLeft >= fliesNeeded) {
+            fly.y = 0;
+            flyLane = floor(random(lanes.length));
+            fly.x = lanes[flyLane]
+        }
+        else {
+            gameActive = false;
+            flySpeed = 0;
+        }
+
     }
 }
 
