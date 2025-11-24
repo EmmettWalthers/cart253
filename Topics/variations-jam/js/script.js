@@ -34,6 +34,7 @@ let frogSpeed = 1000;
 let direction = undefined;
 let fliesLeft = 15;
 let fliesNeeded = 10;
+let frogTimer;
 
 const frog = {
     body: {
@@ -51,7 +52,7 @@ const fly = {
 
 function setup() { 
     createCanvas(640, 750);
-    setInterval(moveFrog, frogSpeed);
+    startFrogTimer();
 }
 
 function preload() {
@@ -105,6 +106,10 @@ function drawPlayButton() {
         imageMode(CENTER);
         image(playButtonImg, width / 2, height / 2);
     }
+}
+
+function startFrogTimer() {
+    frogTimer = setInterval(moveFrog, frogSpeed);
 }
 
 function gameScene() {
@@ -166,7 +171,6 @@ function resetFly() {
             fly.y = 0;
             flyLane = floor(random(lanes.length));
             fly.x = lanes[flyLane];
-            frogSpeed -= 50;
             fliesNeeded -= 1;
         }
         else {
@@ -175,6 +179,9 @@ function resetFly() {
         }
         fliesLeft -= 1;
         hunger -= 640 / 15;
+        frogSpeed -= 50;
+        clearInterval(frogTimer);
+        startFrogTimer();
     }
 }
 
