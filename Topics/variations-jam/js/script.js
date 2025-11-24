@@ -91,12 +91,12 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-function drawText(color, size, text, x, y) {
+function drawText(color, size, txt, x, y) {
     push();
-    fill("color");
+    fill(color);
     textSize(size);
     textAlign(CENTER, CENTER);
-    text(text, x, y)
+    text(txt, x, y)
     pop();
 }
 
@@ -109,16 +109,11 @@ function drawPlayButton() {
 
 function gameScene() {
     if (gameActive) {
-        drawBox("white", 128, 0, 0.5, 1000)
-        drawBox("white", 256, 0, 0.5, 1000)
-        drawBox("white", 384, 0, 0.5, 1000)
-        drawBox("white", 512, 0, 0.5, 1000)
-        push();
-        fill("white");
-        textSize(64);
-        textAlign(CENTER, CENTER);
-        text(fliesLeft, width / 2, height - 600)
-        pop();
+        drawBox("white", 128, 0, 0.5, 1000);
+        drawBox("white", 256, 0, 0.5, 1000);
+        drawBox("white", 384, 0, 0.5, 1000);
+        drawBox("white", 512, 0, 0.5, 1000);
+        drawText("white", 64, fliesLeft, width / 2, height - 600);
         drawFly();
         moveFly();
         drawHungerBar();
@@ -178,6 +173,7 @@ function resetFly() {
             gameActive = false;
             flySpeed = 0;
         }
+        fliesLeft -= 1;
 
     }
 }
