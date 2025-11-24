@@ -26,9 +26,10 @@ let swayAngle = 0;
 let skySize = 0;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
+let flyLane = 2;
 let laneGoal = 2;
-let hunger = 128;
-let blueFlyChance = 10;
+let hunger = 600;
+let flySpeed = 2.5;
 let frogSpeed = 1000;
 let direction = undefined;
 
@@ -36,15 +37,14 @@ const frog = {
     body: {
         x: 320,
         y: 750,
-        size: 150
+        size: 150,
     },
 };
 
 const fly = {
     x: 320,
     y: 0,
-    size: 10,
-    status: 100
+    size: 15,
 };
 
 function setup() { 
@@ -71,7 +71,6 @@ function draw() {
     gameScene();
     drawFrog();
     gameOver();
-    console.log(currentLane)
 }
 
 function drawCircle(color, x, y, size) {
@@ -103,10 +102,8 @@ function gameScene() {
         drawBox("white", 256, 0, 0.5, 1000)
         drawBox("white", 384, 0, 0.5, 1000)
         drawBox("white", 512, 0, 0.5, 1000)
-
         drawFly();
         moveFly();
-        flyEaten();
         drawHungerBar();
     }
 }
@@ -140,20 +137,7 @@ function drawFrog() {
 
 function drawFly() {
     if (gameActive) {
-        if (fly.status > blueFlyChance) {
-            push();
-            noStroke();
-            fill("#000000");
-            ellipse(fly.x, fly.y, fly.size);
-            pop();
-        }
-        else {
-            push();
-            noStroke();
-            fill("blue");
-            ellipse(fly.x, fly.y, fly.size);
-            pop();
-        }
+        drawCircle("#000000", fly.x, fly.y, fly.size)
     }
 }
 
@@ -169,13 +153,12 @@ function moveFly() {
 function resetFly() {
     if (gameActive) {
         fly.y = 0;
-        fly.x = random(lanes);
-        fly.status = random(1, 100);
-        flySpeed += 0.5
+        flyLane = floor(random(lanes.length));
+        fly.x = lanes[flyLane]
     }
 }
 
-function flyEaten() {
+/* function flyEaten() {
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
     if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
         resetFly();
@@ -187,7 +170,7 @@ function flyEaten() {
         hunger -= 64;
         hurtSFX.play();
     }
-}
+} */
 
 function moveFrog() {
     if (gameActive) {
@@ -209,19 +192,19 @@ function moveFrog() {
     }
 }
 
-/* function keyPressed() {
+function keyPressed() {
     if (gameActive) {
-        if (keyCode == LEFT_ARROW && currentLane > 0) {
-            currentLane -= 1;
+        if (keyCode == LEFT_ARROW && flyLane > 0) {
+            flyLane -= 1;
             moveSFX.play();
         } 
-        else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
-            currentLane += 1;
+        else if (keyCode == RIGHT_ARROW && flyLane < lanes.length - 1) {
+            flyLane += 1;
             moveSFX.play();
         }
-        frog.body.x = lanes[currentLane];
+        fly.x = lanes[flyLane];
     }
-} */
+}
 
 function gameOver() {
     if (hunger <= 0) {
