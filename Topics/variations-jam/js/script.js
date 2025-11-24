@@ -29,7 +29,7 @@ let currentLane = 2;
 let laneGoal = 2;
 let hunger = 128;
 let blueFlyChance = 10;
-let flySpeed = 5;
+let frogSpeed = 1000;
 let direction = undefined;
 
 const frog = {
@@ -49,7 +49,7 @@ const fly = {
 
 function setup() { 
     createCanvas(640, 750);
-    setInterval(moveFrog, 500);
+    setInterval(moveFrog, frogSpeed);
 }
 
 function preload() {
@@ -190,20 +190,22 @@ function flyEaten() {
 }
 
 function moveFrog() {
-    if (currentLane == 0) {
-        direction = 1;
-    }
-    else if (currentLane == lanes.length - 1) {
-        direction = -1;
-    }
-    else {
-        direction = random([-1, 1]);
-    }
+    if (gameActive) {
+        if (currentLane == 0) {
+            direction = 1;
+        }
+        else if (currentLane == lanes.length - 1) {
+            direction = -1;
+        }
+        else {
+            direction = random([-1, 1]);
+        }
 
-    let newLane = currentLane + direction;
-    if (newLane >= 0 && newLane < lanes.length) {
-        currentLane = newLane;
-        frog.body.x = lanes[currentLane];
+        let newLane = currentLane + direction;
+        if (newLane >= 0 && newLane < lanes.length) {
+            currentLane = newLane;
+            frog.body.x = lanes[currentLane];
+        }
     }
 }
 
