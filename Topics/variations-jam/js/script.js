@@ -76,6 +76,21 @@ function draw() {
     gameOver();
 }
 
+function isGameActive() {
+    if (!gameActive) {
+        drawPlayButton()
+        mousePressed()
+    }
+    else if (gameActive) {
+        gameScene()
+        drawFly()
+        moveFly()
+        resetFly()
+        moveFrog()
+        keyPressed()
+    }
+}
+
 function drawCircle(color, x, y, size) {
     push();
     fill(color);
@@ -179,6 +194,7 @@ function resetFly() {
         }
         fliesLeft -= 1;
         hunger -= 640 / 15;
+        flySpeed += 0.5
         frogSpeed -= 50;
         clearInterval(frogTimer);
         startFrogTimer();
@@ -230,8 +246,10 @@ function keyPressed() {
 
 function gameOver() {
     if (hunger <= 0) {
+        gameLose()
     }
-    else if (hunger >= 640) {
+    else if (fliesNeeded <= 0) {
+        gameWin()
     }
 }
 
@@ -256,3 +274,7 @@ function gameWin() {
     text("YOU WIN", width / 2, height / 2)
     pop();
 }
+
+// To-Do list
+// Sort Functions
+// Fix game win/lose
