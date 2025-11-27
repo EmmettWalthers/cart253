@@ -1,9 +1,8 @@
 /**
- * Frog Dude (the game)
+ * Frog Dude 2 (the game)
  * Emmett Walthers
  * 
- * A game where the player controls a frog and tries to eat flies which
- * come down different lanes vertically
+ * A game where the player controls a fly and tries to avoid the frog.
  * 
  * Controls: 
  * - Use arrow keys to switch lanes
