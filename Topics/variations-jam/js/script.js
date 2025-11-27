@@ -30,7 +30,7 @@ let flyLane = 2;
 let laneGoal = 2;
 let hunger = 640;
 let flySpeed = 2.5;
-let frogSpeed = 1000;
+let frogSpeed = 500;
 let direction = undefined;
 let fliesLeft = 15;
 let fliesNeeded = 10;
@@ -195,7 +195,7 @@ function resetFly() {
         fliesLeft -= 1;
         hunger -= 640 / 15;
         flySpeed += 0.5
-        frogSpeed -= 50;
+        frogSpeed -= 25;
         clearInterval(frogTimer);
         startFrogTimer();
     }
@@ -212,17 +212,28 @@ function flyEaten() {
 
 function moveFrog() {
     if (gameActive) {
-        if (currentLane == 0) {
-            direction = 1;
-        }
-        else if (currentLane == lanes.length - 1) {
-            direction = -1;
+        let followChance = 0.8;
+
+        if (random() < followChance) {
+            if (currentLane < flyLane) {
+                direction = 1;
+            }
+            else if (currentLane > flyLane) {
+                direction = -1;
+            }
+            else direction = 0;
         }
         else {
-            direction = random([-1, 1]);
-        }
-
+            if (currentLane < flyLane) {
+                direction = -1;
+            }
+            else if (currentLane > flyLane) {
+                direction = 1;
+            }
+            else direction = random([-1, 1]);
+        } 
         let newLane = currentLane + direction;
+
         if (newLane >= 0 && newLane < lanes.length) {
             currentLane = newLane;
             frog.body.x = lanes[currentLane];
@@ -278,3 +289,4 @@ function gameWin() {
 // To-Do list
 // Sort Functions
 // Fix game win/lose
+// Better frog following.
