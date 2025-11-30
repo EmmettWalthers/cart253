@@ -30,6 +30,7 @@ let currentLane = 2;
 let hunger = 128;
 let blueFlyChance = 10;
 let flySpeed = 5;
+let playButtonImg;
 
 const frog = {
     // The frog's body has a position and size
@@ -55,6 +56,7 @@ function setup() {
 // Preloads all the images and sounds
 function preload() {
     titleImg = loadImage("assets/images/title.png");
+    playButtonImg = loadImage("assets/images/play_button.png");
     moveSFX = loadSound("assets/sounds/move.mp3");
     crunchSFX = loadSound("assets/sounds/crunch.wav");
     hurtSFX = loadSound("assets/sounds/hurt.wav");
@@ -68,9 +70,7 @@ function preload() {
 // Calls certain functions every frame
 function draw() {
     background("#87ceeb");
-    drawClouds();
-    titleScreen();
-    drawTransition();
+    drawPlayButton();
     gameScene();
     drawFrog();
     gameOver();
@@ -94,57 +94,11 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-// This Function draws the clouds in the background if gameActive is false
-function drawClouds() {
+function drawPlayButton() {
+    console.log("Drawing Play Button");
     if (!gameActive) {
-        // Draw Clouds
-        drawCircle("white", width / 4, height / 4, 150);
-        drawCircle("white", width / 3, height / 3, 150);
-        drawCircle("white", width / 6, height / 3, 150);
-        drawCircle("white", width / 2 + width / 4, height / 4, 150);
-        drawCircle("white", width / 2 + width / 3, height / 3, 150);
-        drawCircle("white", width / 2 + width / 6, height / 3, 150);
-    }
-}
-
-// This Function draws the Title Screen if gameActive is false
-function titleScreen() {
-    if (!gameActive) {
-
-        // Adds Sway to the Title
-        swayAngle += 0.02; // Sway Speed
-        let sway = sin(swayAngle) * 0.1; // Max Rotation Angle
-
-        // Displays Title Image with Sway
         imageMode(CENTER);
-        push();
-        translate(width / 2, height / 3);
-        rotate(sway);                     
-        image(titleImg, 0, 0);        
-        pop();
-
-        // Displays Instructions Text
-        push();
-        fill("black");
-        textSize(16);
-        textAlign(screenLeft, CENTER);
-        text("Click the Frog to Start \nUse ARROW keys to move frog \nAvoid blue flies or ELSE", 10, 710)
-        pop();
-    }
-}
-
-// Transition Animation when frog is click and game starts
-function drawTransition() {
-    // When scene is changed, activate transition
-    if (scene == 2) {
-        if (skySize < 1000) {
-        skySize += 15
-        }
-        drawCircle("#87ceeb", width / 2, height / 2, skySize)
-    }
-    // When the circle (sky) reaches proper size, set gameActive to true
-    if (skySize >= 1000) {
-        gameActive = true
+        image(playButtonImg, width / 2, height / 2);
     }
 }
 
@@ -170,11 +124,11 @@ function gameScene() {
 
 // Detects when mouse is pressed
 function mousePressed() {
-    // if mouse is inside the frogs body and is clicked, switch scenes and start music
-    if (scene == 1) {
-        let d = dist(mouseX, mouseY, frog.body.x, frog.body.y);
-        if (d < frog.body.size / 2) {
-            scene = 2
+    if (!gameActive) {
+        let d = dist(mouseX, mouseY, width / 2, height / 2);
+        // Adjust 100 based on your button size
+        if (d < 100) {
+            gameActive = true;
             bgMusic.loop();
         }
     }
