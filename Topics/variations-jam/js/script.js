@@ -27,9 +27,10 @@ let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
-let hunger = 750;
+let health = undefined;
 let flySpeed = 5;
 let playButtonImg;
+let score = 0;
 
 const frog = {
     // The frog's body has a position and size
@@ -50,6 +51,7 @@ const fly = {
 // Creates the canvas
 function setup() { 
     createCanvas(640, 750);
+    health = width; // Set health to max at start
 }
 
 // Preloads all the images and sounds
@@ -93,6 +95,15 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
+function drawText(color, size, txt, x, y) {
+    push();
+    fill(color);
+    textSize(size);
+    textAlign(CENTER, CENTER);
+    text(txt, x, y)
+    pop();
+}
+
 function drawPlayButton() {
     console.log("Drawing Play Button");
     if (!gameActive) {
@@ -116,8 +127,9 @@ function gameScene() {
         moveFly();
         flyEaten();
 
-        // Hunger Bar
-        drawHungerBar();
+        // health Bar
+        drawHealthBar();
+        drawText("white", 64, score, width / 2, height - 600);
     }
 }
 
@@ -133,11 +145,11 @@ function mousePressed() {
     }
 }
 
-// Draws the hunger bar
-function drawHungerBar() {
+// Draws the health bar
+function drawHealthBar() {
     // Draws the actual bar
-    drawBox("red", 0, 0, hunger, 25)
-    // If hunger isn't maxed out already, slowly take it away
+    drawBox("red", 0, 0, health, 25)
+    // If health isn't maxed out already, slowly take it away
 }
 
 // Draws the frog
@@ -172,6 +184,7 @@ function moveFly() {
         // Handle the fly going off the canvas
         if (fly.y > height) {
             resetFly();
+            score += 1;
         }
     }
 }
@@ -192,11 +205,12 @@ function resetFly() {
 function flyEaten() {
     // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add hunger to the bar, and play crunch SFX
+    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add health to the bar, and play crunch SFX
     if (d < (fly.size / 2 + 20)) {
         resetFly();
-        hunger += 128;
+        health -= 75;
         crunchSFX.play();
+        hurtSFX.play();
     }
 }
 
@@ -221,11 +235,11 @@ function keyPressed() {
 
 // Checks if game should be over
 function gameOver() {
-    // Activates gameLose if hunger reaches 0
-    if (hunger <= 0) {
+    // Activates gameLose if health reaches 0
+    if (health <= 0) {
     }
-    // Activates gameWin if hunger reaches 640 (max)
-    else if (hunger >= 640) {
+    // Activates gameWin if health reaches 640 (max)
+    else if (health >= 640) {
     }
 }
 
