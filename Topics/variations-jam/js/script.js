@@ -2,7 +2,7 @@
  * Frog Dude (the game)
  * Emmett Walthers
  * 
- * A game where the player controls a frog and tries to eat flies which
+ * A game where the player controls a frog and tries to AVOID flies which
  * come down different lanes vertically
  * 
  * Controls: 
@@ -27,8 +27,7 @@ let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
-let hunger = 128;
-let blueFlyChance = 10;
+let hunger = 750;
 let flySpeed = 5;
 let playButtonImg;
 
@@ -157,23 +156,13 @@ function drawFrog() {
 // Draws the fly (if gameActive is True)
 function drawFly() {
     if (gameActive) {
-        if (fly.status > blueFlyChance) {
-            push();
-            noStroke();
-            fill("#000000");
-            ellipse(fly.x, fly.y, fly.size);
-            pop();
-        }
-
-        else {
-            push();
-            noStroke();
-            fill("blue");
-            ellipse(fly.x, fly.y, fly.size);
-            pop();
+        push();
+        noStroke();
+        fill("black");
+        ellipse(fly.x, fly.y, fly.size);
+        pop();
         }
     }
-}
 
 // Moves the fly (if gameActive is True)
 function moveFly() {
@@ -194,7 +183,6 @@ function resetFly() {
         // Starts the fly in a random lane using the variable list 'lanes'
         fly.x = random(lanes);
         // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
-        fly.status = random(1, 100);
         // Increases fly speed everytime it resets
         flySpeed += 0.5
     }
@@ -205,16 +193,10 @@ function flyEaten() {
     // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
     // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add hunger to the bar, and play crunch SFX
-    if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
+    if (d < (fly.size / 2 + 20)) {
         resetFly();
         hunger += 128;
         crunchSFX.play();
-    }
-    // If fly enters that radius & status is lower than blue fly chance, trigger resetFly, remove hunger from the bar, and play hurt SFX
-    else if (d < (fly.size / 2 + 20) && fly.status < blueFlyChance) {
-        resetFly();
-        hunger -= 64;
-        hurtSFX.play();
     }
 }
 
@@ -241,14 +223,9 @@ function keyPressed() {
 function gameOver() {
     // Activates gameLose if hunger reaches 0
     if (hunger <= 0) {
-        gameLose();
-        fly.speed = 0
     }
     // Activates gameWin if hunger reaches 640 (max)
     else if (hunger >= 640) {
-        gameWin();
-        // Stops fly from moving anymore
-        fly.speed = 0
     }
 }
 
