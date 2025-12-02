@@ -25,8 +25,6 @@ let bgMusic;
 let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
-let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
-let currentLane = 2;
 let hunger = 120;
 let blueFlyChance = 10;
 let flySpeed = 5;
@@ -42,7 +40,7 @@ const frog = {
 };
 
 const fly = {
-    x: 320, // Random Lane
+    x: 320, // Random
     y: 0, 
     size: 10,
     status: 100
@@ -106,12 +104,6 @@ function drawPlayButton() {
 // Draws everything needed for the main game + calls the functions needed to play
 function gameScene() {
     if (gameActive) {
-
-        // Draw Vertical Lanes
-        drawBox("white", 128, 0, 0.5, 1000)
-        drawBox("white", 256, 0, 0.5, 1000)
-        drawBox("white", 384, 0, 0.5, 1000)
-        drawBox("white", 512, 0, 0.5, 1000)
 
         // Call Fly Functions
         drawFly();
@@ -236,7 +228,7 @@ function resetFly() {
     if (gameActive) {
         fly.y = 0;
         // Starts the fly in a random lane using the variable list 'lanes'
-        fly.x = random(lanes);
+        fly.x = random(width*0.1, width*0.9);
         // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
         fly.status = random(1, 100);
         // Increases fly speed everytime it resets
