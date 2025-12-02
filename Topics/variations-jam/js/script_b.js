@@ -21,7 +21,6 @@ let moveSFX;
 let crunchSFX;
 let hurtSFX;
 let bgMusic;
-let swayAngle = 0;
 let skySize = 0;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
