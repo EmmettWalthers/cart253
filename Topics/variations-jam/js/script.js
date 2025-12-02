@@ -26,7 +26,7 @@ let swayAngle = 0;
 let skySize = 0;
 let scene = 1;
 let hunger = 120;
-let blueFlyChance = 10;
+let blueFlyChance = 20;
 let flySpeed = 5;
 let playButtonImg;
 
