@@ -1,5 +1,5 @@
 /**
- * Frog Dude (the game)
+ * Frog Dude 2 (the game)
  * Emmett Walthers
  * 
  * A game where the player controls a frog and tries to AVOID flies which
@@ -15,25 +15,27 @@
 
 "use strict";
 
-// Variables
+// Setup Variables
 let gameActive = false; 
-let titleImg;
+let playButtonImg;
 let moveSFX;
 let crunchSFX;
 let hurtSFX;
 let bgMusic;
-let swayAngle = 0;
-let skySize = 0;
-let scene = 1;
+
+// Lanes
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
-let health = undefined;
+
+// Speeds
 let flySpeed = 5;
-let playButtonImg;
+
+// Game Score
+let health = undefined;
 let score = 0;
 
+// The frog's body has a position and size
 const frog = {
-    // The frog's body has a position and size
     body: {
         x: 320,
         y: 750,
@@ -41,8 +43,9 @@ const frog = {
     },
 };
 
+// The fly's body has a position and size
 const fly = {
-    x: 320, // Random Lane
+    x: 320,
     y: 0, 
     size: 10,
     status: 100
@@ -56,7 +59,6 @@ function setup() {
 
 // Preloads all the images and sounds
 function preload() {
-    titleImg = loadImage("assets/images/title.png");
     playButtonImg = loadImage("assets/images/play_button.png");
     moveSFX = loadSound("assets/sounds/move.mp3");
     crunchSFX = loadSound("assets/sounds/crunch.wav");
@@ -95,6 +97,7 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
+// Draws text using given parameters
 function drawText(color, size, txt, x, y) {
     push();
     fill(color);
@@ -104,6 +107,7 @@ function drawText(color, size, txt, x, y) {
     pop();
 }
 
+// This Function draws the Play Button if gameActive is false
 function drawPlayButton() {
     console.log("Drawing Play Button");
     if (!gameActive) {
@@ -122,37 +126,34 @@ function gameScene() {
         drawBox("white", 384, 0, 0.5, 1000)
         drawBox("white", 512, 0, 0.5, 1000)
 
+        // Draw Score and Health Bar
+        drawText("white", 64, score, width / 2, height - 600);
+        drawHealthBar();
+
         // Call Fly Functions
         drawFly();
         moveFly();
         flyEaten();
-
-        // health Bar
-        drawHealthBar();
-        drawText("white", 64, score, width / 2, height - 600);
     }
 }
 
 // Detects when mouse is pressed
 function mousePressed() {
     if (!gameActive) {
-        let d = dist(mouseX, mouseY, width / 2, height / 2);
-        // Adjust 100 based on your button size
-        if (d < 100) {
+        let d = dist(mouseX, mouseY, width / 2, height / 2); // Distance from mouse to center of play button
+        if (d < 100) { // If mouse is inside play button
             gameActive = true;
             bgMusic.loop();
         }
     }
 }
 
-// Draws the health bar
+// Draws the health bar at the top of the screen
 function drawHealthBar() {
-    // Draws the actual bar
     drawBox("red", 0, 0, health, 25)
-    // If health isn't maxed out already, slowly take it away
 }
 
-// Draws the frog
+// Draws the frog using its body properties
 function drawFrog() {
     // Draw the frog's body
     drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
@@ -176,37 +177,30 @@ function drawFly() {
         }
     }
 
-// Moves the fly (if gameActive is True)
+// Moves the fly down the screen if gameActive is true
 function moveFly() {
     if (gameActive) {
-        // Move the fly
-        fly.y += flySpeed;
-        // Handle the fly going off the canvas
-        if (fly.y > height) {
-            resetFly();
+        fly.y += flySpeed; // Move the fly downwards by flySpeed
+        if (fly.y > height) { // If the fly goes off the bottom of the screen
+            resetFly(); // Reset the fly
             score += 1;
         }
     }
 }
 
-// Resets the fly (if gameActive is True)
+// Resets the fly's position and updates game variables if gameActive is true
 function resetFly() {
     if (gameActive) {
         fly.y = 0;
-        // Starts the fly in a random lane using the variable list 'lanes'
-        fly.x = random(lanes);
-        // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
-        // Increases fly speed everytime it resets
+        fly.x = random(lanes); // Reset fly to a random lane
         flySpeed += 0.5
     }
 }
 
-// Activates when fly enters frogs mouth
+// Checks if the fly has been eaten by the frog
 function flyEaten() {
-    // Creates variable for the distance between the fly and frogs mouth
-    let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add health to the bar, and play crunch SFX
-    if (d < (fly.size / 2 + 20)) {
+    let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60); // Distance from fly to frog's mouth
+    if (d < (fly.size / 2 + 20)) { // If the fly is within eating distance of the frog's mouth
         resetFly();
         health -= 75;
         crunchSFX.play();
@@ -217,26 +211,21 @@ function flyEaten() {
 // Detects key presses (if gameActive is True)
 function keyPressed() {
     if (gameActive) {
-        // Moves frog to the left if not in the first lane and plays SFX
-        if (keyCode == LEFT_ARROW && currentLane > 0) {
+        if (keyCode == LEFT_ARROW && currentLane > 0) { // Moves frog to the left if not in the first lane and plays SFX
             currentLane -= 1;
             moveSFX.play();
-
         } 
-        // Moves frog to the right if not in the last lane and plays SFX
-        else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
+        else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) { // Moves frog to the right if not in the last lane and plays SFX
             currentLane += 1;
             moveSFX.play();
         }
-        // Moves frogs body to the given lane
-        frog.body.x = lanes[currentLane];
+        frog.body.x = lanes[currentLane]; // Moves frog to the given lane
     }
 }
 
 // Checks if game should be over
 function gameOver() {
-    // Activates gameLose if health reaches 0
-    if (health <= 0) {
+    if (health <= 0) { // Activates gameLose if health reaches 0
         gameLose();
     }
 }
