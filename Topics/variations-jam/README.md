@@ -1,8 +1,8 @@
-# Frog Dude (The Game)
+# Frog Dudes (The Games)
 
 Emmett Walthers
 
-[View this project online](https://emmettwalthers.github.io/cart253/Topics/mod-jam/)
+[View this project online](https://emmettwalthers.github.io/cart253/Topics/variations-jam/)
 
 ## Description
 
