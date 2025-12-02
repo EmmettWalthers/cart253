@@ -2,7 +2,7 @@
  * Frog Dude (the game)
  * Emmett Walthers
  * 
- * A game where the player controls a frog and tries to AVOID flies which
+ * A game where the player controls a frog and tries to eat flies which
  * come down different lanes vertically
  * 
  * Controls: 
@@ -27,10 +27,10 @@ let skySize = 0;
 let scene = 1;
 let lanes = [64, 192, 320, 448, 576]; // The middle of each lane 1-5
 let currentLane = 2;
-let health = undefined;
+let hunger = 128;
+let blueFlyChance = 10;
 let flySpeed = 5;
 let playButtonImg;
-let score = 0;
 
 const frog = {
     // The frog's body has a position and size
@@ -51,7 +51,6 @@ const fly = {
 // Creates the canvas
 function setup() { 
     createCanvas(640, 750);
-    health = width; // Set health to max at start
 }
 
 // Preloads all the images and sounds
@@ -95,15 +94,6 @@ function drawBox(color, x, y, w, h) {
     pop();
 }
 
-function drawText(color, size, txt, x, y) {
-    push();
-    fill(color);
-    textSize(size);
-    textAlign(CENTER, CENTER);
-    text(txt, x, y)
-    pop();
-}
-
 function drawPlayButton() {
     console.log("Drawing Play Button");
     if (!gameActive) {
@@ -127,9 +117,8 @@ function gameScene() {
         moveFly();
         flyEaten();
 
-        // health Bar
-        drawHealthBar();
-        drawText("white", 64, score, width / 2, height - 600);
+        // Hunger Bar
+        drawHungerBar();
     }
 }
 
@@ -145,11 +134,11 @@ function mousePressed() {
     }
 }
 
-// Draws the health bar
-function drawHealthBar() {
+// Draws the hunger bar
+function drawHungerBar() {
     // Draws the actual bar
-    drawBox("red", 0, 0, health, 25)
-    // If health isn't maxed out already, slowly take it away
+    drawBox("red", 0, 0, hunger, 25)
+    // If hunger isn't maxed out already, slowly take it away
 }
 
 // Draws the frog
@@ -168,13 +157,23 @@ function drawFrog() {
 // Draws the fly (if gameActive is True)
 function drawFly() {
     if (gameActive) {
-        push();
-        noStroke();
-        fill("black");
-        ellipse(fly.x, fly.y, fly.size);
-        pop();
+        if (fly.status > blueFlyChance) {
+            push();
+            noStroke();
+            fill("#000000");
+            ellipse(fly.x, fly.y, fly.size);
+            pop();
+        }
+
+        else {
+            push();
+            noStroke();
+            fill("blue");
+            ellipse(fly.x, fly.y, fly.size);
+            pop();
         }
     }
+}
 
 // Moves the fly (if gameActive is True)
 function moveFly() {
@@ -184,7 +183,6 @@ function moveFly() {
         // Handle the fly going off the canvas
         if (fly.y > height) {
             resetFly();
-            score += 1;
         }
     }
 }
@@ -196,6 +194,7 @@ function resetFly() {
         // Starts the fly in a random lane using the variable list 'lanes'
         fly.x = random(lanes);
         // Gives the fly a random percent (number). This changes the chance for a blue fly to spawn
+        fly.status = random(1, 100);
         // Increases fly speed everytime it resets
         flySpeed += 0.5
     }
@@ -205,11 +204,16 @@ function resetFly() {
 function flyEaten() {
     // Creates variable for the distance between the fly and frogs mouth
     let d = dist(fly.x, fly.y, frog.body.x, frog.body.y - 60);
-    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add health to the bar, and play crunch SFX
-    if (d < (fly.size / 2 + 20)) {
+    // If fly enters that radius & status is bigger than blue fly chance, trigger resetFly, add hunger to the bar, and play crunch SFX
+    if (d < (fly.size / 2 + 20) && fly.status > blueFlyChance) {
         resetFly();
-        health -= 75;
+        hunger += 128;
         crunchSFX.play();
+    }
+    // If fly enters that radius & status is lower than blue fly chance, trigger resetFly, remove hunger from the bar, and play hurt SFX
+    else if (d < (fly.size / 2 + 20) && fly.status < blueFlyChance) {
+        resetFly();
+        hunger -= 64;
         hurtSFX.play();
     }
 }
@@ -235,11 +239,16 @@ function keyPressed() {
 
 // Checks if game should be over
 function gameOver() {
-    // Activates gameLose if health reaches 0
-    if (health <= 0) {
+    // Activates gameLose if hunger reaches 0
+    if (hunger <= 0) {
+        gameLose();
+        fly.speed = 0
     }
-    // Activates gameWin if health reaches 640 (max)
-    else if (health >= 640) {
+    // Activates gameWin if hunger reaches 640 (max)
+    else if (hunger >= 640) {
+        gameWin();
+        // Stops fly from moving anymore
+        fly.speed = 0
     }
 }
 
