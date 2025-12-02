@@ -37,7 +37,7 @@ const frog = {
     body: {
         x: 320,
         y: 750,
-        size: 150
+        size: 100
     },
 };
 
@@ -72,6 +72,7 @@ function draw() {
     background("#87ceeb");
     drawPlayButton();
     gameScene();
+    moveFrog();
     drawFrog();
     gameOver();
 }
@@ -106,7 +107,7 @@ function drawPlayButton() {
 function gameScene() {
     if (gameActive) {
 
-        // Draw Lanes
+        // Draw Vertical Lanes
         drawBox("white", 128, 0, 0.5, 1000)
         drawBox("white", 256, 0, 0.5, 1000)
         drawBox("white", 384, 0, 0.5, 1000)
@@ -120,6 +121,11 @@ function gameScene() {
         // Hunger Bar
         drawHungerBar();
     }
+}
+
+function moveFrog() {
+    frog.body.x = mouseX;
+    frog.body.y = mouseY;
 }
 
 // Detects when mouse is pressed
@@ -143,15 +149,29 @@ function drawHungerBar() {
 
 // Draws the frog
 function drawFrog() {
+
+    let frogSize = frog.body.size;
+
+    let eyeX = frogSize * 0.33;
+    let eyeY = frogSize * 0.4;
+    let eyeSize = frogSize * 0.27;
+    let pupilSize = eyeSize * 0.5;
+    let mouthY = frogSize * 0.40;
+    let mouthSize = frogSize * 0.13;
+
     // Draw the frog's body
     drawCircle("#00ff00", frog.body.x, frog.body.y, frog.body.size)
-    // Draw the eyes
-    drawCircle("white", frog.body.x - 50, frog.body.y - 60, 40)
-    drawCircle("white", frog.body.x + 50, frog.body.y - 60, 40)
-    drawCircle("black", frog.body.x - 50, frog.body.y - 60, 20)
-    drawCircle("black", frog.body.x + 50, frog.body.y - 60, 20)
-    // Draw the Mouth
-    drawCircle("red", frog.body.x, frog.body.y - 60, 20)
+
+    // Eyes
+    drawCircle("white", frog.body.x - eyeX, frog.body.y - eyeY, eyeSize);
+    drawCircle("white", frog.body.x + eyeX, frog.body.y - eyeY, eyeSize);
+
+    // Pupils
+    drawCircle("black", frog.body.x - eyeX, frog.body.y - eyeY, pupilSize);
+    drawCircle("black", frog.body.x + eyeX, frog.body.y - eyeY, pupilSize);
+
+    // Mouth
+    drawCircle("red", frog.body.x, frog.body.y - mouthY, mouthSize);
 }
 
 // Draws the fly (if gameActive is True)
@@ -215,25 +235,6 @@ function flyEaten() {
         resetFly();
         hunger -= 64;
         hurtSFX.play();
-    }
-}
-
-// Detects key presses (if gameActive is True)
-function keyPressed() {
-    if (gameActive) {
-        // Moves frog to the left if not in the first lane and plays SFX
-        if (keyCode == LEFT_ARROW && currentLane > 0) {
-            currentLane -= 1;
-            moveSFX.play();
-
-        } 
-        // Moves frog to the right if not in the last lane and plays SFX
-        else if (keyCode == RIGHT_ARROW && currentLane < lanes.length - 1) {
-            currentLane += 1;
-            moveSFX.play();
-        }
-        // Moves frogs body to the given lane
-        frog.body.x = lanes[currentLane];
     }
 }
 
