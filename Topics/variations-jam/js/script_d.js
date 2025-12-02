@@ -178,7 +178,7 @@ function flyEaten() {
             hunger += 32;
             crunchSFX.play();
         } else { // If the fly is a blue fly
-            hunger -= 16;
+            hunger -= 64;
             hurtSFX.play();
         }
         resetFly();
