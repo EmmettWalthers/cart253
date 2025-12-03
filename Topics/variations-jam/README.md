@@ -50,11 +50,11 @@ Emmett Walthers
 
 > ![Image of Gameplay](./assets/images/screenshot2.png)
 
-> ![Image of Title Screen](./assets/images/screenshot3.png)
+> ![Image of Title Screen](./assets/screenshot3.png)
 
-> ![Image of Gameplay](./assets/images/screenshot4.png)
+> ![Image of Gameplay](./assets/screenshot4.png)
 
-> ![Image of Gameplay](./assets/images/screenshot5.png)
+> ![Image of Gameplay](./assets/screenshot5.png)
 
 ## Attribution
 
