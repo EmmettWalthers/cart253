@@ -4,7 +4,7 @@ Emmett Walthers
 
 [View this project online](https://emmettwalthers.github.io/cart253/Topics/variations-jam/)
 
-## Description
+## Frog Game [OG] Description
 
 > The project is a game about a frog which needs to eat flies to survive
 
@@ -14,19 +14,35 @@ Emmett Walthers
 
 > Includes awesome music and sound effects
 
-## Instructions Followed
+## Fly Game [Variation 1] Description
 
-> "A title and instructions screen." - Cool Title Animation and Transition
+> The project is a game about a fly which needs to avoid the frog to survive
 
-> "An ending." - If hunger bar gets too low, "Game Over" if it gets filled fully, "You Win"
+> You have 15 flies (chances) to get 10 past the frog - or else you lose...
 
-> "A scoring system." - Hunger bar at top of screen
+> Use the arrow keys to control the fly
 
-> "New kinds of fly movement." - Lane system, where the fly picks a random one to come down
+> Includes awesome music and sound effects
 
-> "New visual and/or audio effects." Lots of sound effects, background music, and some cool visuals with the title screen
+## Frog Game 2 [Variation 2] Description
 
-> "Add at least two other features to the experience." Use arrow keys to move between lanes. Added bad fly (blue one) which harms the player. Hunger bar system.
+> The frog is full now, you must avoid the falling flies. Try to get a highscore!
+
+> The frog has a certain amount of health, eat enough flies and you lose
+
+> Use the arrow keys to control the frog
+
+> Includes awesome music and sound effects
+
+## Frog Game Lite [Variation 3] Description
+
+> The frog is now mini!
+
+> Use your cursor to move the frog around and catch the flies.
+
+> Be careful of blue flies because their back and they hit HARD now
+
+> still Includes awesome music and sound effects
 
 ## Screenshot(s)
 
